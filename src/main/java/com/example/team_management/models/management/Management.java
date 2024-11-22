@@ -14,4 +14,5 @@ public class Management {
     private LocalDateTime create_at;
     private LocalDateTime update_at;
     private LocalDateTime delete_at;
+    private LocalDateTime completion_schedule;
 }

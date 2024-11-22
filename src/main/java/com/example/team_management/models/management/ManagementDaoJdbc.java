@@ -14,12 +14,12 @@ public class ManagementDaoJdbc implements ManagementDao{
     @Autowired
     JdbcTemplate jdbc;
 
-    
+
     @Override
     public int addManagementData(Management manaegment) throws DataAccessException {
         // データ追加
-        int rowNumber = jdbc.update("INSERT INTO management(user_id, subject, link, status) VALUES (?,?,?,?)", 
-                                        manaegment.getUser_id(), manaegment.getSubject(), manaegment.getLink(), manaegment.getStatus());
+        int rowNumber = jdbc.update("INSERT INTO management(user_id, subject, link, status,completion_schedule) VALUES (?,?,?,?,?)", 
+                                        manaegment.getUser_id(), manaegment.getSubject(), manaegment.getLink(), manaegment.getStatus(), manaegment.getCompletion_schedule());
         return rowNumber;
     }
 
@@ -45,6 +45,7 @@ public class ManagementDaoJdbc implements ManagementDao{
             management.setCreate_at((LocalDateTime) map.get("create_at"));
             management.setUpdate_at((LocalDateTime) map.get("update_at"));
             management.setDelete_at((LocalDateTime) map.get("delete_at"));
+            management.setCompletion_schedule((LocalDateTime) map.get("completion_schedule"));
 
             // リターン用リストに追加
             managementList.add(management);
@@ -75,6 +76,7 @@ public class ManagementDaoJdbc implements ManagementDao{
             management.setCreate_at((LocalDateTime) map.get("create_at"));
             management.setUpdate_at((LocalDateTime) map.get("update_at"));
             management.setDelete_at((LocalDateTime) map.get("delete_at"));
+            management.setCompletion_schedule((LocalDateTime) map.get("completion_schedule"));
 
             // リターン用リストに追加
             managementList.add(management);
@@ -105,6 +107,7 @@ public class ManagementDaoJdbc implements ManagementDao{
             management.setCreate_at((LocalDateTime) map.get("create_at"));
             management.setUpdate_at((LocalDateTime) map.get("update_at"));
             management.setDelete_at((LocalDateTime) map.get("delete_at"));
+            management.setCompletion_schedule((LocalDateTime) map.get("completion_schedule"));
 
         } else {
 
@@ -121,8 +124,8 @@ public class ManagementDaoJdbc implements ManagementDao{
     @Override
     public int updateManagementData(Management management) throws DataAccessException {
         // idベースで1データ更新
-        int rowNumber = jdbc.update("UPDATE management SET user_id = ?, subject = ?, link = ?, status = ?, update_at = CURRENT_TIMESTAMP WHERE",
-                                    management.getUser_id(), management.getSubject(), management.getLink(), management.getStatus());
+        int rowNumber = jdbc.update("UPDATE management SET user_id = ?, subject = ?, link = ?, status = ?, update_at = CURRENT_TIMESTAMP, completion_schedule = ? WHERE management_id = ?",
+                                    management.getUser_id(), management.getSubject(), management.getLink(), management.getStatus(), management.getCompletion_schedule(), management.getManagement_id());
         return rowNumber;
     }
 
