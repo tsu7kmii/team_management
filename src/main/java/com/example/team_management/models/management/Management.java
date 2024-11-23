@@ -1,6 +1,6 @@
 package com.example.team_management.models.management;
 
-import java.time.LocalDate;
+import java.sql.Date;
 import java.time.LocalDateTime;
 
 import lombok.Data;
@@ -15,5 +15,5 @@ public class Management {
     private LocalDateTime create_at;
     private LocalDateTime update_at;
     private LocalDateTime delete_at;
-    private LocalDate completion_schedule;
+    private Date completion_schedule;
 }

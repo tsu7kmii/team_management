@@ -1,6 +1,6 @@
 package com.example.team_management.models.management;
 
-import java.time.LocalDate;
+import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -46,7 +46,7 @@ public class ManagementDaoJdbc implements ManagementDao{
             management.setCreate_at((LocalDateTime) map.get("create_at"));
             management.setUpdate_at((LocalDateTime) map.get("update_at"));
             management.setDelete_at((LocalDateTime) map.get("delete_at"));
-            management.setCompletion_schedule((LocalDate) map.get("completion_schedule"));
+            management.setCompletion_schedule((Date) map.get("completion_schedule"));
 
             // リターン用リストに追加
             managementList.add(management);
@@ -77,7 +77,7 @@ public class ManagementDaoJdbc implements ManagementDao{
             management.setCreate_at((LocalDateTime) map.get("create_at"));
             management.setUpdate_at((LocalDateTime) map.get("update_at"));
             management.setDelete_at((LocalDateTime) map.get("delete_at"));
-            management.setCompletion_schedule((LocalDate) map.get("completion_schedule"));
+            management.setCompletion_schedule((Date) map.get("completion_schedule"));
 
             // リターン用リストに追加
             managementList.add(management);
@@ -108,7 +108,7 @@ public class ManagementDaoJdbc implements ManagementDao{
             management.setCreate_at((LocalDateTime) map.get("create_at"));
             management.setUpdate_at((LocalDateTime) map.get("update_at"));
             management.setDelete_at((LocalDateTime) map.get("delete_at"));
-            management.setCompletion_schedule((LocalDate) map.get("completion_schedule"));
+            management.setCompletion_schedule((Date) map.get("completion_schedule"));
 
         } else {
 
