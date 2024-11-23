@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +20,9 @@ public class UserService {
     @Autowired
     @Qualifier("UserDaoJdbc")
     UserDao dao;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     public Map<Integer, String> getUserNameList(){
         
@@ -39,9 +43,20 @@ public class UserService {
         return result; 
     }
 
+    // mysql -> 表示用にフォーマットする
     public LocalDateTime localDateTimeFormatter(String date){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         LocalDateTime accessExpiresAt = LocalDateTime.parse(date, formatter);
         return accessExpiresAt;
+    }
+
+    // ユーザー登録時のパスワードのハッシュ化
+    public String createHash(String password){
+        return passwordEncoder.encode(password);
+    }
+
+    // ログイン時のパスワード認証
+    public boolean matchHashPassword(String inputPassword, String hashPassword){
+        return passwordEncoder.matches(inputPassword, hashPassword);
     }
 }
