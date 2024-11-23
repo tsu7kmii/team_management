@@ -7,5 +7,8 @@ import org.springframework.dao.DataAccessException;
 public interface UserDao {
     
     // 全ユーザー情報取得
-    public Map<String, String> getUserNameList() throws DataAccessException;
+    public Map<Integer, String> getUserNameList() throws DataAccessException;
+
+    // 新規登録
+    public int newUserRegister(User user) throws DataAccessException;
 }

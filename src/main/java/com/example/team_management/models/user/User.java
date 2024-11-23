@@ -1,6 +1,5 @@
 package com.example.team_management.models.user;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import lombok.Data;
@@ -11,8 +10,8 @@ public class User {
     private String user_name;
     private String access_token;
     private String refresh_token;
-    private LocalDate access_expires_at;
-    private LocalDate refresh_expires_at;
+    private LocalDateTime access_expires_at;
+    private LocalDateTime refresh_expires_at;
     private String password;
     private String password_salt;
     private String email;
