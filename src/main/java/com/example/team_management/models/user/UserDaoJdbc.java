@@ -1,8 +1,6 @@
 package com.example.team_management.models.user;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -32,8 +30,8 @@ public class UserDaoJdbc implements UserDao{
     @Override
     public int newUserRegister(User user) throws DataAccessException {
         // 新規登録
-        int rowNumber = jdbc.update("INSERT INTO user_table(user_name, access_token, refresh_token, access_expires_at, refresh_expires_at, password, password_salt, email, permission_level ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
-                                    , user.getUser_name(), user.getAccess_token(), user.getRefresh_token(), user.getAccess_expires_at(), user.getRefresh_expires_at(), user.getPassword(), user.getPassword_salt(), user.getEmail(), user.getPermission_level());
+        int rowNumber = jdbc.update("INSERT INTO user_table(user_name, access_token, refresh_token, access_expires_at, refresh_expires_at, password, email, permission_level ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
+                                    , user.getUser_name(), user.getAccess_token(), user.getRefresh_token(), user.getAccess_expires_at(), user.getRefresh_expires_at(), user.getPassword(), user.getEmail(), user.getPermission_level());
 
         return rowNumber;
     }

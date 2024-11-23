@@ -13,7 +13,6 @@ public class User {
     private LocalDateTime access_expires_at;
     private LocalDateTime refresh_expires_at;
     private String password;
-    private String password_salt;
     private String email;
     private int permission_level;
     private LocalDateTime create_at;
