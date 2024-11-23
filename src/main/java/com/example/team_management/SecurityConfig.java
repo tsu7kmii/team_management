@@ -25,22 +25,19 @@ public class SecurityConfig{
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         http.authorizeHttpRequests((requests) ->requests
             .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-            .requestMatchers("/").permitAll()
             .requestMatchers("/sign_in","/register").permitAll()
-            .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
+            .requestMatchers("/admin/**").hasAuthority("ADMIN")
             .anyRequest().authenticated()
         )
-        //     .formLogin((form) -> form
-        //     // ログインページへのパスを指定→コントローラーにもGET、/loginでの処理を記載する必要がある
-        //     .loginPage("/login")
-        //     // ログイン成功時に表示される画面へのパス
-        //     .defaultSuccessUrl("/")
-        //     .permitAll()
-        // )
+            .formLogin((form) -> form
+            // ログインページへのパスを指定→コントローラーにもGET、/loginでの処理を記載する必要がある
+            .loginPage("/login")
+            // ログイン成功時に表示される画面へのパス
+            .defaultSuccessUrl("/")
+            .permitAll()
+        )
         .logout((logout) -> logout.permitAll());
 
-        
-        
         return http.build();
     }
      
