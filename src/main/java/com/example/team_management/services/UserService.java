@@ -11,7 +11,7 @@ import com.example.team_management.models.user.UserDao;
 
 @Transactional // トランザクション
 @Service
-public class UserServise {
+public class UserService {
 
     @Autowired
     @Qualifier("UserDaoJdbc")
