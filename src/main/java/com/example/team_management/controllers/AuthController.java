@@ -29,11 +29,13 @@ public class AuthController {
         
         user.setAccess_expires_at(userService.localDateTimeFormatter("2024-09-24 23:51:08"));
         user.setRefresh_expires_at(userService.localDateTimeFormatter("2024-09-24 23:51:08"));
-        user.setPassword(password);
-        user.setPassword_salt("sese");
+
+        user.setPassword(userService.createHash(password));
         
         user.setEmail(email);
         user.setPermission_level(2);
+
+        System.err.println(user);
 
         boolean result = userService.newUserRegister(user);
 
