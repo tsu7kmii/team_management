@@ -1,0 +1,43 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{common/common :: meta_header('Team management',~{::link},~{::script})}">
+
+</head>
+<body>
+    <div th:replace="~{common/common :: pagetitle}"></div>
+
+    <p>This is team management system</p>
+
+    <nav class="navbar bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/management"> - View</a>
+        </div>
+    </nav>
+        
+    <nav class="navbar bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/#"> - Register</a>
+        </div>
+    </nav>
+
+    <nav class="navbar bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/#"> - Logout</a>
+        </div>
+    </nav>
+
+    <br>
+
+    <nav class="navbar bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/#"> - Change Name</a>
+        </div>
+    </nav>
+
+    <nav class="navbar bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/#"> - Change Email</a>
+        </div>
+    </nav>
+
+</body>
+</html>
