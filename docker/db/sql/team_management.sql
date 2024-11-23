@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- ホスト: mysql
--- 生成日時: 2024 年 11 月 22 日 23:42
+-- 生成日時: 2024 年 11 月 23 日 14:58
 -- サーバのバージョン： 8.4.2
 -- PHP のバージョン: 8.2.8
 
@@ -75,7 +75,8 @@ ALTER TABLE `management`
 -- テーブルのインデックス `user_table`
 --
 ALTER TABLE `user_table`
-  ADD PRIMARY KEY (`user_id`);
+  ADD PRIMARY KEY (`user_id`),
+  ADD UNIQUE KEY `unique_email` (`email`) USING BTREE;
 
 --
 -- ダンプしたテーブルの AUTO_INCREMENT
@@ -85,7 +86,7 @@ ALTER TABLE `user_table`
 -- テーブルの AUTO_INCREMENT `management`
 --
 ALTER TABLE `management`
-  MODIFY `management_id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `management_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- テーブルの AUTO_INCREMENT `user_table`
