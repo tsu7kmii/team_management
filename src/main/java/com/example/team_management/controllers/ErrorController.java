@@ -9,9 +9,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class ErrorController {
+
+    @RequestMapping("/error")
+    public String error(Model model){
+        model.addAttribute("error_title", "デフォルトエラーページです");
+        model.addAttribute("error_message", "エラーハンドリングが設定されていない可能性があります");
+        model.addAttribute("return_link", "/");
+        return "error";
+    }
     
     @RequestMapping(value = "/error/{error}",method = RequestMethod.GET)
-    public String error(@PathVariable String error, @RequestParam(required = false) String parms, Model model){
+    public String errorHangling(@PathVariable String error, @RequestParam(required = false) String parms, Model model){
 
         model.addAttribute("error_title", error);
 
@@ -29,7 +37,14 @@ public class ErrorController {
                 returnLink = "/sign_up";
                 break;
         
+            case "add_management_error":
+                errorMessage = "マネジメントの登録時にエラーが発生しました。 \n 再度試してください。";
+                returnLink = "/register_form";
+                break;
+
             default:
+                errorMessage = "エラーハンドリングが設定されてません";
+                returnLink = "/";
                 break;
         }
 
