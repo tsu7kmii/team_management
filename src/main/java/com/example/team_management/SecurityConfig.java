@@ -33,7 +33,7 @@ public class SecurityConfig{
             // ログインページへのパスを指定→コントローラーにもGET、/loginでの処理を記載する必要がある
             .loginPage("/login")
             // ログイン成功時に表示される画面へのパス
-            .defaultSuccessUrl("/")
+            .defaultSuccessUrl("/",true)
             .permitAll()
         )
         .logout((logout) -> logout.permitAll());
