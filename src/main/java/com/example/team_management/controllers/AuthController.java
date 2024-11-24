@@ -58,7 +58,7 @@ public class AuthController {
     public String login(){
 
         // ログイン
-        return "login";
+        return "auth/login";
     }
 
     @RequestMapping("/logout")
@@ -69,8 +69,15 @@ public class AuthController {
         return "redirect:/login";
     }
 
+    @RequestMapping("/sign_in")
+    public String register(){
+
+        // アカウント作成
+        return "auth/register";
+    }
+
     @RequestMapping("/access-denied")
     public String accessDenied() {
-		return "access-denied";
+		return "auth/access-denied";
 	}
 }

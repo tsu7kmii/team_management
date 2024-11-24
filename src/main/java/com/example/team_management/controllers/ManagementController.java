@@ -42,11 +42,4 @@ public class ManagementController {
         return "management/management";
     }
 
-    @RequestMapping("/sign_in")
-    public String register(){
-
-        // debug アカウント作成
-        return "auth/register";
-    }
-
 }
