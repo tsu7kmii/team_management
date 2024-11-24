@@ -1,0 +1,30 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head th:replace="~{common/common :: meta_header('LOGIN',~{::link},~{::script})}">
+
+<body>
+	<!-- 新規アカウント作成 -->
+	<nav class="navbar bg-body-tertiary">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="/sign_in"> - create new account</a>
+		</div>
+	</nav>
+
+	<br><br>
+
+
+	<h1>ログインページ</h1>
+	<div th:if="${param.error}">
+		ユーザー名かパスワードが違います。</div>
+	<div th:if="${param.logout}">
+		ログアウト済みです。</div>
+	<form th:action="@{/login}" method="post">
+		<div>
+			<input type="text" name="username" placeholder="Email"/>
+		</div>
+		<div>
+			<input type="password" name="password" placeholder="Password"/>
+		</div>
+		<input type="submit" value="ログイン" />
+	</form>
+</body>
+</html>

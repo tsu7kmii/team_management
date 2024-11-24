@@ -32,7 +32,7 @@ public class ManagementController {
     public String managamentView(Model model){
         List<Management> incomplateList = managementService.getAllIncompleteManagementData();
         List<Management> complateList = managementService.getAllCompletionManagementData();
-        Map<String, String> userMap = userService.getUserNameList();
+        Map<Integer, String> userMap = userService.getUserNameList();
 
 
         model.addAttribute("incomplate_list", incomplateList);
@@ -41,4 +41,5 @@ public class ManagementController {
 
         return "management/management";
     }
+
 }

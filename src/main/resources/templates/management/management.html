@@ -79,7 +79,7 @@
                 </div>
 
                 <!-- 完了予定日 -->
-                <td th:text="${#dates.format(T(java.util.Date).from(incomplate.completion_schedule.atZone(T(java.time.ZoneId).systemDefault()).toInstant()), 'MM/dd')}"></td>
+                <td th:text="${#dates.format(incomplate.completion_schedule, 'MM/dd')}"></td>
                 
             </tr>
         </table>
