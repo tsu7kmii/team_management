@@ -9,15 +9,16 @@
 
 </head>
 <body>
-    <div th:replace="~{common/common :: pagetitle}"></div>
+    <div th:replace="~{common/common :: nav}"></div>
     <div th:replace="~{common/common :: pagetitle}"></div>
 
+    <br><br>
 
     <form th:action="@{/item_register}" method="post" th:object="${itemForm}">
 
         <div>
             <label for="user_id">担当者を選択してください</label><br>
-            <select name="user_id" id="user_id">
+            <select name="user_id" id="user_id" class="form-select">
                 <option th:each="entry : ${user_list}" 
                         th:value="${entry.key}" 
                         th:text="${entry.value}"
@@ -29,19 +30,19 @@
 
         <div>
             <label for="subject">科目を入力してください</label><br>
-            <input type="text" name="subject" id="subject">
+            <textarea name="subject" id="subject" class="height-large" autocomplete="off"></textarea>
         </div>
 
 
         <div>
             <label for="link">課題リンクがある場合入力してください</label><br>
-            <input type="text" name="link" id="link">
+            <textarea name="link" id="link" class="height-medium" autocomplete="off"></textarea>
         </div>
 
 
         <div>
             <label for="status">ステータスを選択してください</label><br>
-            <select name="status" id="status">
+            <select name="status" id="status" class="form-select">
                 <option value="0">未着手</option>
                 <option value="1" selected>取り組み中</option>
                 <option value="2">待機</option>
@@ -55,7 +56,7 @@
             <input type="text" name="completion_schedule" id="completion_schedule" class="fl-datepicker" >
         </div>
         
-        <button type="submit">sousin</button>
+        <button type="submit">Addition</button>
     </form>
 
     <script>

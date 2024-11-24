@@ -5,6 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
     <!-- 共通で読み込むCSS/JS -->
+     <link rel="stylesheet" href="/css/style.css">
 
     <!-- Bootstrap(css) -->
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
@@ -27,15 +28,7 @@
     <header th:fragment="nav">
         <nav class="navbar bg-body-tertiary">
             <div class="container-fluid">
-                <a class="navbar-brand" th:href="@{'/'}"> - Return Top</a>
-            </div>
-        </nav>
-    </header>
-
-    <header th:fragment="management_view">
-        <nav class="navbar bg-body-tertiary">
-            <div class="container-fluid">
-                <a class="navbar-brand" th:href="@{'/management'}"> - Return Management</a>
+                <a class="navbar-brand" th:href="@{'/'}"> <- Return Top</a>
             </div>
         </nav>
     </header>

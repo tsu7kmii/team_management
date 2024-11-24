@@ -1,21 +1,33 @@
 <html xmlns:th="http://www.thymeleaf.org"></html>
-<head th:replace="~{common/common :: meta_header('${error_title}',~{::link},~{::script})}">
+<head th:replace="~{common/common :: meta_header('ERROR',~{::link},~{::script})}">
 
 </head>
 <body>
+
     <div th:replace="~{common/common :: pagetitle}"></div>
 
-    <p th:text="${error_title}"></p>
+  <div class="front-mount">
 
-    <p th:text="${error_message}"></p>
+    <br><br>
+
+    <h3>予期せぬエラーが発生しました。</h3>
+
+    <h4 style="color: crimson;">ERROR CODE: <span th:text="${error_title} ?: 'Not Setting Error'"></span></h4>
+
+    <br><br><br>
+
+    <h4 th:text="${error_message}?: 'エラーメッセージが指定されていません。'"></h4>
 
     <br><br>
 
     <nav class="navbar bg-body-tertiary">
-		<div class="container-fluid">
-			<a class="navbar-brand" th:href="@{${return_link}}"> - return</a>
-		</div>
-	</nav>
+      <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{${return_link} ?: '/'}"> <- return</a>
+      </div>
+    </nav>
+
+  </div>
+
 
     
 
