@@ -32,6 +32,14 @@
         </nav>
     </header>
 
+    <header th:fragment="management_view">
+        <nav class="navbar bg-body-tertiary">
+            <div class="container-fluid">
+                <a class="navbar-brand" th:href="@{'/management'}"> - Return Management</a>
+            </div>
+        </nav>
+    </header>
+
     <header th:fragment="pagetitle">
         <h1 class="display-2">
             <span style="color: red;">T</span>eam <span style="color: red;">M</span>anagement <span style="color: red;">A</span>pp
