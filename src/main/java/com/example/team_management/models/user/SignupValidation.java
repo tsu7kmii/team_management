@@ -13,6 +13,7 @@ public class SignupValidation {
     @NotBlank
     @Size(min = 5)
     @Pattern(regexp = ".*@.*", message = "メールアドレスには@が必要です")
+    // @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@hannan-u\\.ac\\.jp$", message = "メールアドレスはhannan-u.ac.jpドメインである必要があります")
     private String email;
 
     @NotBlank
