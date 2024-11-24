@@ -44,8 +44,14 @@ public class AuthController {
         user.setAccess_expires_at(userService.localDateTimeFormatter("2024-09-24 23:51:08"));
         user.setRefresh_expires_at(userService.localDateTimeFormatter("2024-09-24 23:51:08"));
 
-        
+
         user.setPassword(userService.createHash(signupValidation.getPassword()));
+
+        if (userService.isEmailAlreadyRegistered(signupValidation.getEmail())) {
+            // 既にemailが使用済の場合
+            return "redirect:/error/used_email_error?parms=" + signupValidation.getEmail();
+        }
+
         user.setEmail(signupValidation.getEmail());
         user.setPermission_level(2);
 
@@ -57,7 +63,7 @@ public class AuthController {
             return "redirect:/";
         } else {
             // 失敗
-            return "redirect:/error/create_account";
+            return "redirect:/error/create_account_error";
         }                  
     }
 
