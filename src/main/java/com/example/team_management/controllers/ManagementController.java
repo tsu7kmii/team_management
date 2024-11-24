@@ -2,9 +2,15 @@ package com.example.team_management.controllers;
 
 import java.util.*;
 
+import java.sql.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.ui.Model;
 
 import com.example.team_management.models.management.Management;
@@ -30,6 +36,8 @@ public class ManagementController {
 
     @RequestMapping("/management")
     public String managamentView(Model model){
+
+        // 一覧表示
         List<Management> incomplateList = managementService.getAllIncompleteManagementData();
         List<Management> complateList = managementService.getAllCompletionManagementData();
         Map<Integer, String> userMap = userService.getUserNameList();
@@ -42,4 +50,47 @@ public class ManagementController {
         return "management/management";
     }
 
+    @RequestMapping("/register_form")
+    public String formItem(@AuthenticationPrincipal UserDetails userDetails ,Model model){
+
+        Map<Integer, String> userMap = userService.getUserNameList();
+
+        String email = userDetails.getUsername();
+        Integer selectedUserId = userService.findIdByEmail(email);
+
+
+        model.addAttribute("user_list", userMap);
+        model.addAttribute("selected_user_id", selectedUserId);
+
+        // 追加ページ
+        return "management/register_item";
+    }
+
+    @RequestMapping(value = "/item_register", method = RequestMethod.POST)
+    public String itemRegister(@RequestParam("user_id") Integer userId,
+                                @RequestParam("subject") String subject,
+                                @RequestParam("link") String link,
+                                @RequestParam("status") Integer status,
+                                @RequestParam("completion_schedule") String comDate){
+
+                                    
+        // 追加処理
+        Management management = new Management();  
+        management.setUser_id(userId);
+        management.setSubject(subject);
+        management.setLink(link);
+        management.setStatus(status);
+        management.setCompletion_schedule(Date.valueOf(comDate));  
+
+        boolean result = managementService.addManagementData(management);
+
+        if (result){
+            return "redirect:/management";
+        } else {
+            return "redirect:/error/add_management_error";
+        }
+    }
+
+
+    // 編集
 }
