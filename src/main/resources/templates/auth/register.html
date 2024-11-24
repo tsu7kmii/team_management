@@ -10,22 +10,25 @@
 
     <br>
 
-    <form th:action="@{/register}" method="post">
+    <form th:action="@{/register}" method="post" th:object="${signupValidation}">
 
         <div>
             <label for="name">名前：</label>
-            <input type="text" name="name" id="name">
+            <input type="text" name="name" id="name" th:value="${signupValidation.name}">
         </div>
+        <div th:if="${#fields.hasErrors('name')}" th:errors="${signupValidation.name}"></div>
 
         <div>
             <label for="email">メールアドレス：</label>
-            <input type="text" name="email" id="email">
+            <input type="text" name="email" id="email" th:value="${signupValidation.email}">
         </div>
+        <div th:if="${#fields.hasErrors('email')}" th:errors="${signupValidation.email}"></div>
 
         <div>
             <label for="password">パスワード：</label>
-            <input type="text" name="password" id="password">
+            <input type="text" name="password" id="password" th:value="${signupValidation.password}">
         </div>
+        <div th:if="${#fields.hasErrors('password')}" th:errors="${signupValidation.password}"></div>
 
         <button type="submit">登録する</button>
 
