@@ -65,4 +65,8 @@ public class UserService {
     public boolean isEmailAlreadyRegistered(String email){
         return dao.isEmailAlreadyRegistered(email);
     }
+
+    public int findIdByEmail(String email){
+        return dao.findIdByEmail(email);
+    }
 }

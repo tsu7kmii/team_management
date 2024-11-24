@@ -77,4 +77,18 @@ public class UserDaoJdbc implements UserDao{
         return !getList.isEmpty();
     }
 
+    @Override
+    public int findIdByEmail(String email) throws DataAccessException {
+        // ログインアカウント標準選択用
+        List<Map<String, Object>> getList = jdbc.queryForList("SELECT user_id FROM user_table WHERE email = ?",email);
+
+        int getId = -1;
+
+        for (Map<String, Object> map : getList){
+            getId = (Integer) map.get("user_id");
+        }
+
+        return getId;
+    }
+
 }
