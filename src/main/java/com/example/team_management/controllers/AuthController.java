@@ -29,7 +29,7 @@ public class AuthController {
     public String newUserRegister(@Validated SignupValidation signupValidation, BindingResult result, Model model){
 
         if (result.hasErrors()){
-            return "auth/sigin_in";
+            return "auth/sign_up";
         }
 
         // 登録処理
@@ -82,11 +82,11 @@ public class AuthController {
         return "redirect:/login";
     }
 
-    @RequestMapping("/sign_in")
+    @RequestMapping("/sign_up")
     public String register(SignupValidation signupValidation){
 
         // アカウント作成
-        return "auth/sigin_in";
+        return "auth/sign_up";
     }
 
     @RequestMapping("/access-denied")
