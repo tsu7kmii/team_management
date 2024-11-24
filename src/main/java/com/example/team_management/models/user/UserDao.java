@@ -15,4 +15,7 @@ public interface UserDao {
 
     // ログイン用
     public Optional<User> findByEmail(String email) throws DataAccessException;
+
+    // アカウント作成時、既に使用されているメールアドレスかどうか
+    public boolean isEmailAlreadyRegistered(String email) throws DataAccessException;
 }

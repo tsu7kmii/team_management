@@ -67,4 +67,14 @@ public class UserDaoJdbc implements UserDao{
         return Optional.of(user);
     }
 
+    @Override
+    public boolean isEmailAlreadyRegistered(String email) throws DataAccessException {
+
+        // アカウント作成時、既に使用されているメールアドレスかどうか
+        List<Map<String, Object>> getList = jdbc.queryForList("SELECT email FROM user_table WHERE email = ? ",email);
+
+        // メールアドレスが既に登録されている場合はtrueを返す
+        return !getList.isEmpty();
+    }
+
 }

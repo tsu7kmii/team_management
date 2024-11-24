@@ -59,4 +59,10 @@ public class UserService {
     public boolean matchHashPassword(String inputPassword, String hashPassword){
         return passwordEncoder.matches(inputPassword, hashPassword);
     }
+
+    // アカウント作成時、既に使用されているメールアドレスかどうか
+    // メールアドレスが既に登録されている場合はtrueを返す
+    public boolean isEmailAlreadyRegistered(String email){
+        return dao.isEmailAlreadyRegistered(email);
+    }
 }
