@@ -25,11 +25,11 @@ public class AuthController {
 
     SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();
 
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    @RequestMapping(value = "/user_register", method = RequestMethod.POST)
     public String newUserRegister(@Validated SignupValidation signupValidation, BindingResult result, Model model){
 
         if (result.hasErrors()){
-            return "auth/register";
+            return "auth/sigin_in";
         }
 
         // 登録処理
@@ -86,7 +86,7 @@ public class AuthController {
     public String register(SignupValidation signupValidation){
 
         // アカウント作成
-        return "auth/register";
+        return "auth/sigin_in";
     }
 
     @RequestMapping("/access-denied")
