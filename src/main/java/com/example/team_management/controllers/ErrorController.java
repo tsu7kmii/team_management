@@ -10,13 +10,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class ErrorController {
 
-    @RequestMapping("/error")
-    public String error(Model model){
-        model.addAttribute("error_title", "デフォルトエラーページです");
-        model.addAttribute("error_message", "エラーハンドリングが設定されていない可能性があります");
-        model.addAttribute("return_link", "/");
-        return "error";
-    }
     
     @RequestMapping(value = "/error/{error}",method = RequestMethod.GET)
     public String errorHangling(@PathVariable String error, @RequestParam(required = false) String parms, Model model){
