@@ -1,0 +1,23 @@
+<html xmlns:th="http://www.thymeleaf.org"></html>
+<head th:replace="~{common/common :: meta_header('${error_title}',~{::link},~{::script})}">
+
+</head>
+<body>
+    <div th:replace="~{common/common :: pagetitle}"></div>
+
+    <p th:text="${error_title}"></p>
+
+    <p th:text="${error_message}"></p>
+
+    <br><br>
+
+    <nav class="navbar bg-body-tertiary">
+		<div class="container-fluid">
+			<a class="navbar-brand" th:href="@{${return_link}}"> - return</a>
+		</div>
+	</nav>
+
+    
+
+</body>
+</html>
