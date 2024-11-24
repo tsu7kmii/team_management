@@ -4,10 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.team_management.models.user.SignupValidation;
 import com.example.team_management.models.user.User;
 import com.example.team_management.services.UserService;
 
@@ -23,34 +26,38 @@ public class AuthController {
     SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public String newUserRegister(@RequestParam("name") String name,
-                                    @RequestParam("email") String email,
-                                    @RequestParam("password") String password){
+    public String newUserRegister(@Validated SignupValidation signupValidation, BindingResult result, Model model){
+
+        if (result.hasErrors()){
+            return "auth/register";
+        }
+
         // 登録処理
         // 登録用インスタンス作成
         User user = new User();
     
-        user.setUser_name(name);
+        user.setUser_name(signupValidation.getName());
+
+        // 今後実装または放置
         user.setAccess_token("NoSetting");
         user.setRefresh_token("NotSetting");
-        
         user.setAccess_expires_at(userService.localDateTimeFormatter("2024-09-24 23:51:08"));
         user.setRefresh_expires_at(userService.localDateTimeFormatter("2024-09-24 23:51:08"));
 
-        user.setPassword(userService.createHash(password));
         
-        user.setEmail(email);
+        user.setPassword(userService.createHash(signupValidation.getPassword()));
+        user.setEmail(signupValidation.getEmail());
         user.setPermission_level(2);
 
 
-        boolean result = userService.newUserRegister(user);
+        boolean createResults = userService.newUserRegister(user);
 
-        if (result == true){
+        if (createResults == true){
             // 成功
             return "redirect:/";
         } else {
             // 失敗
-            return "redirect:/management";
+            return "redirect:/error/create_account";
         }                  
     }
 
@@ -70,7 +77,7 @@ public class AuthController {
     }
 
     @RequestMapping("/sign_in")
-    public String register(){
+    public String register(SignupValidation signupValidation){
 
         // アカウント作成
         return "auth/register";
