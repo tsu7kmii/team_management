@@ -21,18 +21,33 @@ public class ErrorController {
 
         switch (error) {
             case "create_account_error":
-                errorMessage = "アカウント作成時にエラーが発生しました。 \n 再度試してください";
+                errorMessage = "アカウント作成時にエラーが発生しました。再度試してください";
                 returnLink = "/sign_up";
                 break;
 
             case "used_email_error":
-                errorMessage = "このメールアドレスは既に使用されています: " + parms + "。 \n 違うメールアドレスを使用してください";
+                errorMessage = "このメールアドレスは既に使用されています: " + parms + "。違うメールアドレスを使用してください";
                 returnLink = "/sign_up";
                 break;
         
             case "add_management_error":
-                errorMessage = "マネジメントの登録時にエラーが発生しました。 \n 再度試してください。";
+                errorMessage = "マネジメントの登録時にエラーが発生しました。再度試してください。";
                 returnLink = "/register_form";
+                break;
+
+            case "not_found_edit_item_error":
+                errorMessage = "指定されたマネジメント項目は存在しないか、既に完了済の可能性があります。";
+                returnLink = "/management";
+                break;
+
+            case "edit_management_error":
+                errorMessage = "マネジメントの変更時にエラーが発生しました。再度試してください。";
+                returnLink = "/management/edit/" + parms;
+                break;
+
+            case "not_complate_management_error":
+                errorMessage = "マネジメントの完了時にエラーが発生しました。再度試してください。";
+                returnLink = "/management/edit/" + parms;
                 break;
 
             default:
