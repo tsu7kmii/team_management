@@ -90,8 +90,7 @@
                     <!-- 詳細ページ遷移 -->
                     <div>
                         <td class="button-td">
-                            <form th:action="@{/management/edit}" method="post" class="custom-form-reset center-form">
-                                <input type="hidden" name="management_id" th:value="${incomplate.management_id}">
+                            <form th:action="@{/management/edit/{id}(id=${incomplate.management_id})}" method="get" class="custom-form-reset center-form">
                                 <button type="submit" class="btn btn-outline-primary">詳細</button>
                             </form>
                         </td>
@@ -121,7 +120,7 @@
                     <th class="th-twenty">課題Link</th>
                     <th class="th-ten">ステータス</th>
                     <th class="th-eight">更新日</th>
-                    <th class="th-ten">完定日</th>
+                    <th class="th-ten">完了日</th>
                 </tr>
             </thead>
             <tbody class="table-group-divider">
