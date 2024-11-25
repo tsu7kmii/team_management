@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -92,5 +93,70 @@ public class ManagementController {
     }
 
 
-    // 編集
+    
+    @RequestMapping(value = "/management/edit/{id}", method = RequestMethod.GET)
+    public String managementEdit(@PathVariable String id,Model model){
+
+        // 編集
+        Map<Integer, String> userMap = userService.getUserNameList();
+        Management management = managementService.getManagementDataById(id);
+
+        if (management.getDelete_at() != null){
+            // 存在しないidまたは完了済の場合
+            return "redirect:/error/not_found_edit_item_error";
+        }
+
+
+
+        model.addAttribute("user_list", userMap);
+        model.addAttribute("management_data", management);
+
+        return "management/edit_item";
+    }
+
+    @RequestMapping(value = "/edit_register", method = RequestMethod.POST)
+    public String itemEditRegister(@RequestParam("management_id") Integer managementId,
+                                @RequestParam("user_id") Integer userId,
+                                @RequestParam("subject") String subject,
+                                @RequestParam("link") String link,
+                                @RequestParam("status") Integer status,
+                                @RequestParam("completion_schedule") String comDate){
+
+                                    
+        // 変更処理
+        Management management = new Management(); 
+        management.setManagement_id(managementId); 
+        management.setUser_id(userId);
+        management.setSubject(subject);
+        management.setLink(link);
+        management.setStatus(status);
+        management.setCompletion_schedule(Date.valueOf(comDate));  
+
+        boolean result = managementService.updateManagementData(management);
+
+        if (result){
+            return "redirect:/management";
+        } else {
+            return "redirect:/error/edit_management_error?parms=" + managementId;
+        }
+    }
+
+    @RequestMapping(value = "/management/complate/{id}", method = RequestMethod.GET)
+    public String managementComplate(@PathVariable String id){
+
+        // 完了
+        boolean result = managementService.deleteManagementDataById(id);
+        
+
+        if (result){
+            return "redirect:/management";
+        } else {
+            return "redirect:/error/not_complate_management_error?parms=" + id;
+        }
+
+    }
+
+    // "redirect:/error/used_email_error?parms=" + signupValidation.getEmail();
+
+
 }
