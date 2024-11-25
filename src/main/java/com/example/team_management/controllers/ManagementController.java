@@ -43,6 +43,9 @@ public class ManagementController {
         List<Management> complateList = managementService.getAllCompletionManagementData();
         Map<Integer, String> userMap = userService.getUserNameList();
 
+        // delete_atの日付が古い順に並び替え
+        complateList.sort(Comparator.comparing(Management::getDelete_at));
+
 
         model.addAttribute("incomplate_list", incomplateList);
         model.addAttribute("complate_list", complateList);
