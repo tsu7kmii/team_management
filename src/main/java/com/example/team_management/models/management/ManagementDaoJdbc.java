@@ -134,7 +134,7 @@ public class ManagementDaoJdbc implements ManagementDao{
     @Override
     public int deleteManagementDataById(String id) throws DataAccessException {
         // delete_atを追加
-        int rowNumber = jdbc.update("UPDATE management SET update_at = CURRENT_TIMESTAMP, delete_at = CURRENT_TIMESTAMP WHERE management_id = ?", id);
+        int rowNumber = jdbc.update("UPDATE management SET status = 5, update_at = CURRENT_TIMESTAMP, delete_at = CURRENT_TIMESTAMP WHERE management_id = ?", id);
         return rowNumber;
     }
 }
