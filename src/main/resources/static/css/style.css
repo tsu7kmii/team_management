@@ -2,6 +2,7 @@ body {
     background-color: #808080;
 }
 
+/* ログインフォーム関係で設置 */
 form {
     display: flex;
     flex-direction: column;
@@ -79,9 +80,12 @@ form button:hover {
     margin: 0 auto;
 }
 
-
+/* マネジメントテーブル表示用 */
 td {
-    white-space: pre;
+    white-space: pre; /* 改行を有効化 */
+    padding: 0; /* 余白をゼロにする */
+    vertical-align: middle;
+    height: auto;
 }
 
 .error-message {
@@ -92,3 +96,63 @@ td {
     font-size: 130%;
 }
 
+td form {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+/* ボタンの配置を調整 */
+.button-td {
+    text-align: center;
+    padding: 0;
+    width: 1%; /* テーブルセルを内容に合わせて最小幅にする */
+    white-space: nowrap;
+}
+
+/* テーブル内フォーム：ログイン関係の表示の無効化 */
+.custom-form-reset {
+    all: unset;
+    box-sizing: border-box;
+}
+
+/* テーブル内ボタンの表示制御 */
+.center-form {
+    display: inline-flex;
+    justify-content: center; /* 横中央揃え */
+    align-items: center;    /* 縦中央揃え */
+    margin: 0;              /* 余白をゼロに */
+    height: auto;           /* テーブルセル内で高さを合わせる */
+}
+
+.center-form button {
+    margin: 0;              /* 余計な余白を削除 */
+    padding: 0.5rem 1rem; /* より小さいパディング値に調整 */
+    line-height: 1.2; /* 行の高さを調整 */
+    display: inline-block; /* ブロック要素にして上下のライン余白を排除 */
+}
+
+/* テーブル見出し */
+thead {
+    text-align: center;
+}
+/* 日付未入力 */
+.center-date {
+    text-align: center;
+}
+
+/* テーブル見出しの表示割合制御 */
+.th-four{
+    width: 4%;
+}
+.th-eight{
+    width: 8%;
+}
+.th-ten{
+    width: 10%;
+}
+.th-twenty{
+    width: 20%;
+}
+.th-thirty{
+    width: 30%;
+}
