@@ -91,4 +91,11 @@ public class UserDaoJdbc implements UserDao{
         return getId;
     }
 
+    @Override
+    public int changePasswordByEmail(String email, String newPassword) {
+        // パスワード変更
+        int rowNumber = jdbc.update("UPDATE user_table SET password = ?, update_at = CURRENT_TIMESTAMP WHERE email = ?", newPassword, email);
+        return rowNumber;
+    }
+
 }

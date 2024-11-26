@@ -21,4 +21,7 @@ public interface UserDao {
 
     // ログインアカウント標準選択用
     public int findIdByEmail(String email) throws DataAccessException;
+
+    // パスワード変更
+    public int changePasswordByEmail(String email,String newPassword) throws DataAccessException;
 }

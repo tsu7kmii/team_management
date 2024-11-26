@@ -69,4 +69,16 @@ public class UserService {
     public int findIdByEmail(String email){
         return dao.findIdByEmail(email);
     }
+
+    public boolean changePasswordByEmail(String email, String newPassword){
+        int rowNumber = dao.changePasswordByEmail(email, newPassword);
+
+        boolean result = false;
+
+        if (rowNumber > 0) {
+            // 成功
+            result = true;
+        }
+        return result;
+    }
 }
