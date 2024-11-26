@@ -81,7 +81,7 @@ ALTER TABLE `user_table`
 -- テーブルの AUTO_INCREMENT `management`
 --
 ALTER TABLE `management`
-  MODIFY `management_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `management_id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- テーブルの AUTO_INCREMENT `user_table`
