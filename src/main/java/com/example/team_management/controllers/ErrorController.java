@@ -70,6 +70,11 @@ public class ErrorController {
                 returnLink = "/change_password";
                 break;
 
+            case "not_change_name_error":
+                errorMessage = "問題が発生し名前を変更できませんでした。再度お試しください。";
+                returnLink = "/change_naem";
+                break;
+
             default:
                 errorMessage = "エラーハンドリングが設定されてません";
                 returnLink = "/";
