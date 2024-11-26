@@ -12,6 +12,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.example.team_management.models.user.NameChangeValidation;
 import com.example.team_management.models.user.PasswordChangeValidation;
 import com.example.team_management.models.user.SignupValidation;
 import com.example.team_management.models.user.User;
@@ -71,7 +72,7 @@ public class AuthController {
     }
 
     @RequestMapping(value = "/user_change_password", method=RequestMethod.POST)
-    public String requestMethodName(@Validated PasswordChangeValidation passwordChangeValidation,
+    public String changePasswordRegister(@Validated PasswordChangeValidation passwordChangeValidation,
                                     BindingResult bindingResult,
                                     @AuthenticationPrincipal UserDetails userDetails){
         
@@ -94,6 +95,28 @@ public class AuthController {
             return "redirect:/logout";
         } else {
             return "redirect:/error/not_change_password_error";
+        }
+    }
+
+    @RequestMapping(value = "/user_change_name", method=RequestMethod.POST)
+    public String changeNameRegister(@Validated NameChangeValidation nameChangeValidation,
+                                    BindingResult bindingResult,
+                                    @AuthenticationPrincipal UserDetails userDetails){
+        
+        
+        if (bindingResult.hasErrors()) {
+            // バリデーションチェック
+            return "auth/change_name";
+        }
+        
+        // 名前変更
+        boolean isChangeNameResult = userService.changeNameByEmail(userDetails.getUsername(),nameChangeValidation.getNewName());
+
+        if (isChangeNameResult){
+            // 成功時ログアウト
+            return "redirect:/";
+        } else {
+            return "redirect:/error/not_change_name_error";
         }
     }
     
@@ -125,6 +148,13 @@ public class AuthController {
 
         // パスワード変更
         return "auth/change_password";
+    }
+
+    @RequestMapping("/change_name")
+    public String viewChangeName(NameChangeValidation nameChangeValidation){
+
+        // パスワード変更
+        return "auth/change_name";
     }
 
     @RequestMapping("/access-denied")
