@@ -10,12 +10,26 @@
     <br>
 
     <div th:if="${incomplate_list.size()} == 0">
-        <h3>  :  現在進行中の内容はありません</h4>
+        <h3>  :  現在進行中の内容はありません</h3>
+
+        <nav class="navbar bg-body-tertiary">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/register_form"> - Register</a>
+            </div>
+        </nav>
     </div>
 
     <div th:if="${incomplate_list.size()} > 0" class="front-mount">
 
         <h3> - 現在進行中</h3>
+
+        <nav class="navbar bg-body-tertiary">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/register_form"> - Register</a>
+            </div>
+        </nav>
+
+        <br>
         
         <!-- テーブルにボーダーを入れる場合はクラスに追加:table-bordered -->
         <table class="table table-striped">
@@ -104,12 +118,29 @@
     <br><br><br>
     
     <div th:if="${complate_list.size()} == 0">
-        <h3>  :  完了済の内容はありません</h4>
+        <div class="front-mount">
+        
+            <h3>  :  完了済の内容はありません</h3>
+
+            <nav class="navbar bg-body-tertiary">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="/management/history"> - History</a>
+                </div>
+            </nav>
+        </div>
     </div>
 
     <div th:if="${complate_list.size()} > 0" class="front-mount">
 
         <h3> - 完了済</h3>
+
+        <nav class="navbar bg-body-tertiary">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/management/history"> - History</a>
+            </div>
+        </nav>
+
+        <br>
 
         <table class="table table-striped"> 
             <thead>
