@@ -32,10 +32,15 @@ public class ManagementService {
         return result;
     }
 
+    public List<Integer> getComplateYearData(){
+        // 全完了の年データ取得
+        return dao.getComplateYearData();
+    }
+
 
     public List<Management> getAllCompletionManagementData(String year){
 
-        // 全完了データ取得
+        // 全年別完了データ取得
         return dao.getAllCompletionManagementData(year);
     }
 

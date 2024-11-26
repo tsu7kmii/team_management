@@ -24,10 +24,18 @@ public class ManagementDaoJdbc implements ManagementDao{
         return rowNumber;
     }
 
+    @Override
+    public List<Integer> getComplateYearData() throws DataAccessException {
+        // 全完了の年データ取得
+        List<Integer> years = jdbc.queryForList("SELECT DISTINCT YEAR(delete_at) FROM management WHERE delete_at IS NOT null", Integer.class);
+
+        return years;
+    }
+
 
     @Override
     public List<Management> getAllCompletionManagementData(String year) throws DataAccessException {
-        // 全完了データ取得
+        // 全年別完了データ取得
         List<Map<String, Object>> geList = jdbc.queryForList("SELECT * FROM management WHERE delete_at IS NOT null AND YEAR(delete_at) = ?",year);
 
         // リターン用インスタンスを生成
