@@ -50,6 +50,16 @@ public class ErrorController {
                 returnLink = "/management/edit/" + parms;
                 break;
 
+            case "year_not_found_error":
+                errorMessage = "指定された" + parms + "年のデータは存在しません。";
+                returnLink = "/management/history";
+                break;
+
+            case "no_history_data_error":
+                errorMessage = "過去の完了済データは存在しません。";
+                returnLink = "/management";
+                break;
+
             default:
                 errorMessage = "エラーハンドリングが設定されてません";
                 returnLink = "/";
