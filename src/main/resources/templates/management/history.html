@@ -1,0 +1,36 @@
+<html xmlns:th="http://www.thymeleaf.org"></html>
+<head th:replace="~{common/common :: meta_header('Top page',~{::link},~{::script})}">
+
+</head>
+<body>
+    <nav class="navbar bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" th:href="@{'/management'}"> <- Return Management</a>
+        </div>
+    </nav>
+    <div th:replace="~{common/common :: pagetitle}"></div>
+
+    <br>
+
+    <div class="front-mount">
+
+        <h3>Historys</h3>
+
+        <br>
+
+        <div th:each="year : ${historys}" >
+
+            <nav class="navbar bg-body-tertiary">
+                <div class="container-fluid">
+                    <span> - <a class="navbar-brand" th:href="@{/management/history/{year}(year=${year})}" th:text="${year}"></a></span>
+                </div>
+            </nav>
+
+            <br>
+        </div>
+    </div>
+
+    <br><br>
+
+</body>
+</html>
