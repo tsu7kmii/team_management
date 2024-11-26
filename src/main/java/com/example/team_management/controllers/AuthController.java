@@ -2,6 +2,8 @@ package com.example.team_management.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,12 +12,14 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.example.team_management.models.user.PasswordChangeValidation;
 import com.example.team_management.models.user.SignupValidation;
 import com.example.team_management.models.user.User;
 import com.example.team_management.services.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
 
 @Controller
 public class AuthController {
@@ -66,6 +70,34 @@ public class AuthController {
         }                  
     }
 
+    @RequestMapping(value = "/user_change_password", method=RequestMethod.POST)
+    public String requestMethodName(@Validated PasswordChangeValidation passwordChangeValidation,
+                                    BindingResult bindingResult,
+                                    @AuthenticationPrincipal UserDetails userDetails){
+        
+        
+        if (bindingResult.hasErrors()) {
+            // バリデーションチェック
+            return "auth/change_password";
+        }
+        
+        if (!passwordChangeValidation.getNewPassword().equals(passwordChangeValidation.getAgainNewPassword())) {
+            // 入力された2種類のパスワードが一致しない場合
+            return "redirect:/error/not_equal_password_error";
+        }
+
+        // パスワード変更
+        boolean isChangePasswordResult = userService.changePasswordByEmail(userDetails.getUsername(),userService.createHash(passwordChangeValidation.getNewPassword()));
+
+        if (isChangePasswordResult){
+            // 成功時ログアウト
+            return "redirect:/logout";
+        } else {
+            return "redirect:/error/not_change_password_error";
+        }
+    }
+    
+
     @RequestMapping("/login")
     public String login(){
 
@@ -78,14 +110,21 @@ public class AuthController {
         
         // ログアウト
         this.logoutHandler.logout(request, response, authentication);
-        return "redirect:/login";
+        return "redirect:/login?logout";
     }
 
     @RequestMapping("/sign_up")
-    public String register(SignupValidation signupValidation){
+    public String viewRegister(SignupValidation signupValidation){
 
         // アカウント作成
         return "auth/sign_up";
+    }
+
+    @RequestMapping("/change_password")
+    public String viewChangePassword(PasswordChangeValidation passwordChangeValidation){
+
+        // パスワード変更
+        return "auth/change_password";
     }
 
     @RequestMapping("/access-denied")
