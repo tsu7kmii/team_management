@@ -10,7 +10,7 @@ public interface ManagementDao {
     public int addManagementData(Management manaegment) throws DataAccessException;
 
     // 全完了データ取得
-    public List<Management> getAllCompletionManagementData() throws DataAccessException;
+    public List<Management> getAllCompletionManagementData(String year) throws DataAccessException;
 
     // 全未完了データ取得
     public List<Management> getAllIncompleteManagementData() throws DataAccessException;

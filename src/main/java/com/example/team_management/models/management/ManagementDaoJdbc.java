@@ -26,9 +26,9 @@ public class ManagementDaoJdbc implements ManagementDao{
 
 
     @Override
-    public List<Management> getAllCompletionManagementData() throws DataAccessException {
+    public List<Management> getAllCompletionManagementData(String year) throws DataAccessException {
         // 全完了データ取得
-        List<Map<String, Object>> geList = jdbc.queryForList("SELECT * FROM management WHERE delete_at IS NOT null");
+        List<Map<String, Object>> geList = jdbc.queryForList("SELECT * FROM management WHERE delete_at IS NOT null AND YEAR(delete_at) = ?",year);
 
         // リターン用インスタンスを生成
         List<Management> managementList = new ArrayList<>();

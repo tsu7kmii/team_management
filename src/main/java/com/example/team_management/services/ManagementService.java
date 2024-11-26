@@ -33,10 +33,10 @@ public class ManagementService {
     }
 
 
-    public List<Management> getAllCompletionManagementData(){
+    public List<Management> getAllCompletionManagementData(String year){
 
         // 全完了データ取得
-        return dao.getAllCompletionManagementData();
+        return dao.getAllCompletionManagementData(year);
     }
 
 
