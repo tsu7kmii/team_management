@@ -151,7 +151,7 @@ public class ManagementController {
             return "redirect:/management";
         } else {
             // 失敗
-            return "redirect:/error/edit_management_error?parms=" + managementId;
+            return "redirect:/error/edit_management_error?param=" + managementId;
         }
     }
 
@@ -166,7 +166,7 @@ public class ManagementController {
             return "redirect:/management";
         } else {
             // 失敗
-            return "redirect:/error/not_complate_management_error?parms=" + id;
+            return "redirect:/error/not_complate_management_error?param=" + id;
         }
 
     }
@@ -193,7 +193,7 @@ public class ManagementController {
 
         if (!yaers.contains(Integer.parseInt(year))) {
             // 示された年が存在するかチェック
-            return "redirect:/error/year_not_found_error?parms=" + year;
+            return "redirect:/error/year_not_found_error?param=" + year;
         }
 
         // 一覧取得

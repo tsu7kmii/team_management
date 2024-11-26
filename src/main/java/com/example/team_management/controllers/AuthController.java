@@ -39,7 +39,7 @@ public class AuthController {
 
         if (userService.isEmailAlreadyRegistered(signupValidation.getEmail())) {
             // 既にemailが使用済の場合
-            return "redirect:/error/used_email_error?parms=" + signupValidation.getEmail();
+            return "redirect:/error/used_email_error?param=" + signupValidation.getEmail();
         }
 
         // 登録処理

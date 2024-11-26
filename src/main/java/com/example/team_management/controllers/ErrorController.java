@@ -12,7 +12,7 @@ public class ErrorController {
 
     
     @RequestMapping(value = "/error/{error}",method = RequestMethod.GET)
-    public String errorHangling(@PathVariable String error, @RequestParam(required = false) String parms, Model model){
+    public String errorHangling(@PathVariable String error, @RequestParam(required = false) String param, Model model){
 
         model.addAttribute("error_title", error);
 
@@ -26,7 +26,7 @@ public class ErrorController {
                 break;
 
             case "used_email_error":
-                errorMessage = "このメールアドレスは既に使用されています: " + parms + "。違うメールアドレスを使用してください";
+                errorMessage = "このメールアドレスは既に使用されています: " + param + "。違うメールアドレスを使用してください";
                 returnLink = "/sign_up";
                 break;
         
@@ -42,16 +42,16 @@ public class ErrorController {
 
             case "edit_management_error":
                 errorMessage = "マネジメントの変更時にエラーが発生しました。再度試してください。";
-                returnLink = "/management/edit/" + parms;
+                returnLink = "/management/edit/" + param;
                 break;
 
             case "not_complate_management_error":
                 errorMessage = "マネジメントの完了時にエラーが発生しました。再度試してください。";
-                returnLink = "/management/edit/" + parms;
+                returnLink = "/management/edit/" + param;
                 break;
 
             case "year_not_found_error":
-                errorMessage = "指定された" + parms + "年のデータは存在しません。";
+                errorMessage = "指定された" + param + "年のデータは存在しません。";
                 returnLink = "/management/history";
                 break;
 
