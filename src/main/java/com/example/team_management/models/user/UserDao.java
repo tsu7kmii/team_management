@@ -24,4 +24,7 @@ public interface UserDao {
 
     // パスワード変更
     public int changePasswordByEmail(String email,String newPassword) throws DataAccessException;
+
+    // 名前変更
+    public int changeNameByEmail(String email, String newName) throws DataAccessException;
 }

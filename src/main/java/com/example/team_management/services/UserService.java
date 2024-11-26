@@ -24,14 +24,14 @@ public class UserService {
     @Autowired
     PasswordEncoder passwordEncoder;
 
+    // 全ユーザー情報取得
     public Map<Integer, String> getUserNameList(){
         
-        // 全ユーザー情報取得
         return dao.getUserNameList();
     }
 
+    // 新規登録
     public boolean newUserRegister(User user){
-
         int rowNumber = dao.newUserRegister(user);
 
         boolean result = false;
@@ -66,12 +66,27 @@ public class UserService {
         return dao.isEmailAlreadyRegistered(email);
     }
 
+    // emailからidを取得
     public int findIdByEmail(String email){
         return dao.findIdByEmail(email);
     }
 
+    // パスワード変更
     public boolean changePasswordByEmail(String email, String newPassword){
         int rowNumber = dao.changePasswordByEmail(email, newPassword);
+
+        boolean result = false;
+
+        if (rowNumber > 0) {
+            // 成功
+            result = true;
+        }
+        return result;
+    }
+
+    // 名前変更
+    public boolean changeNameByEmail(String email, String newName){
+        int rowNumber = dao.changeNameByEmail(email, newName);
 
         boolean result = false;
 

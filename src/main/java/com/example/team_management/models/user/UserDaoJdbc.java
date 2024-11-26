@@ -98,4 +98,11 @@ public class UserDaoJdbc implements UserDao{
         return rowNumber;
     }
 
+    @Override
+    public int changeNameByEmail(String email, String newName) throws DataAccessException {
+        // 名前変更
+        int rowNumber = jdbc.update("UPDATE user_table SET user_name = ?, update_at = CURRENT_TIMESTAMP WHERE email = ?", newName, email);
+        return rowNumber;
+    }
+
 }
