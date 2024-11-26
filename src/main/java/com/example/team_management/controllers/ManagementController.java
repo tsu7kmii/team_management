@@ -79,18 +79,22 @@ public class ManagementController {
 
                                     
         // 追加処理
+        // インスタンス作成
         Management management = new Management();  
+        
         management.setUser_id(userId);
         management.setSubject(subject);
         management.setLink(link);
         management.setStatus(status);
         management.setCompletion_schedule(Date.valueOf(comDate));  
 
-        boolean result = managementService.addManagementData(management);
+        boolean isAddManagementResult = managementService.addManagementData(management);
 
-        if (result){
+        if (isAddManagementResult){
+            // 成功
             return "redirect:/management";
         } else {
+            // 失敗
             return "redirect:/error/add_management_error";
         }
     }
@@ -127,7 +131,9 @@ public class ManagementController {
 
                                     
         // 変更処理
+        // インスタンス作成
         Management management = new Management(); 
+
         management.setManagement_id(managementId); 
         management.setUser_id(userId);
         management.setSubject(subject);
@@ -135,11 +141,13 @@ public class ManagementController {
         management.setStatus(status);
         management.setCompletion_schedule(Date.valueOf(comDate));  
 
-        boolean result = managementService.updateManagementData(management);
+        boolean isUpdateManagementResult = managementService.updateManagementData(management);
 
-        if (result){
+        if (isUpdateManagementResult){
+            // 成功
             return "redirect:/management";
         } else {
+            // 失敗
             return "redirect:/error/edit_management_error?parms=" + managementId;
         }
     }
@@ -148,18 +156,15 @@ public class ManagementController {
     public String managementComplate(@PathVariable String id){
 
         // 完了
-        boolean result = managementService.deleteManagementDataById(id);
-        
+        boolean isDeleteManagementResult = managementService.deleteManagementDataById(id);
 
-        if (result){
+        if (isDeleteManagementResult){
+            // 成功
             return "redirect:/management";
         } else {
+            // 失敗
             return "redirect:/error/not_complate_management_error?parms=" + id;
         }
 
     }
-
-    // "redirect:/error/used_email_error?parms=" + signupValidation.getEmail();
-
-
 }
