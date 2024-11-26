@@ -48,10 +48,6 @@ CREATE TABLE `management` (
 CREATE TABLE `user_table` (
   `user_id` int NOT NULL,
   `user_name` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `access_token` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `refresh_token` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `access_expires_at` datetime NOT NULL,
-  `refresh_expires_at` datetime NOT NULL,
   `password` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `email` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `permission_level` mediumint NOT NULL COMMENT '1:admin , 2 :nomel user ,3 other',

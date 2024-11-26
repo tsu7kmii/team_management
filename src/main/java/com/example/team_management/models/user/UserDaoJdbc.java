@@ -31,8 +31,8 @@ public class UserDaoJdbc implements UserDao{
     @Override
     public int newUserRegister(User user) throws DataAccessException {
         // 新規登録
-        int rowNumber = jdbc.update("INSERT INTO user_table(user_name, access_token, refresh_token, access_expires_at, refresh_expires_at, password, email, permission_level ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
-                                    , user.getUser_name(), user.getAccess_token(), user.getRefresh_token(), user.getAccess_expires_at(), user.getRefresh_expires_at(), user.getPassword(), user.getEmail(), user.getPermission_level());
+        int rowNumber = jdbc.update("INSERT INTO user_table(user_name, password, email, permission_level ) VALUES (?, ?, ?, ?)"
+                                    , user.getUser_name(), user.getPassword(), user.getEmail(), user.getPermission_level());
 
         return rowNumber;
     }
@@ -53,10 +53,6 @@ public class UserDaoJdbc implements UserDao{
 
         user.setUser_id((Integer) map.get("user_id"));
         user.setUser_name((String) map.get("user_name"));
-        user.setAccess_token((String) map.get("access_token"));
-        user.setRefresh_token((String) map.get("refresh_token"));
-        user.setAccess_expires_at((LocalDateTime) map.get("access_expires_at"));
-        user.setRefresh_expires_at((LocalDateTime) map.get("refresh_expires_at"));
         user.setPassword((String) map.get("password"));
         user.setEmail((String) map.get("email"));
         user.setPermission_level((Integer) map.get("permission_level"));

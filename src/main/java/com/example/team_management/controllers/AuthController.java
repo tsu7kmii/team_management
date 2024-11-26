@@ -51,14 +51,7 @@ public class AuthController {
         user.setPassword(userService.createHash(signupValidation.getPassword()));
         user.setEmail(signupValidation.getEmail());
         user.setPermission_level(2);
-
-        // アクセストークン関係：今後実装または放置
-        user.setAccess_token("NoSetting");
-        user.setRefresh_token("NotSetting");
-        user.setAccess_expires_at(userService.localDateTimeFormatter("2024-09-24 23:51:08"));
-        user.setRefresh_expires_at(userService.localDateTimeFormatter("2024-09-24 23:51:08"));
         
-
         // 実行
         boolean isRegisterResult = userService.newUserRegister(user);
 
