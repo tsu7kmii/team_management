@@ -26,39 +26,38 @@ public class AuthController {
     SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();
 
     @RequestMapping(value = "/user_register", method = RequestMethod.POST)
-    public String newUserRegister(@Validated SignupValidation signupValidation, BindingResult result, Model model){
+    public String newUserRegister(@Validated SignupValidation signupValidation, BindingResult bindingResult, Model model){
 
-        if (result.hasErrors()){
+        if (bindingResult.hasErrors()){
+            // バリデーションチェック
             return "auth/sign_up";
         }
-
-        // 登録処理
-        // 登録用インスタンス作成
-        User user = new User();
-    
-        user.setUser_name(signupValidation.getName());
-
-        // 今後実装または放置
-        user.setAccess_token("NoSetting");
-        user.setRefresh_token("NotSetting");
-        user.setAccess_expires_at(userService.localDateTimeFormatter("2024-09-24 23:51:08"));
-        user.setRefresh_expires_at(userService.localDateTimeFormatter("2024-09-24 23:51:08"));
-
-
-        user.setPassword(userService.createHash(signupValidation.getPassword()));
 
         if (userService.isEmailAlreadyRegistered(signupValidation.getEmail())) {
             // 既にemailが使用済の場合
             return "redirect:/error/used_email_error?parms=" + signupValidation.getEmail();
         }
 
+        // 登録処理
+        // 登録用インスタンス作成
+        User user = new User();
+
+        user.setUser_name(signupValidation.getName());
+        user.setPassword(userService.createHash(signupValidation.getPassword()));
         user.setEmail(signupValidation.getEmail());
         user.setPermission_level(2);
 
+        // アクセストークン関係：今後実装または放置
+        user.setAccess_token("NoSetting");
+        user.setRefresh_token("NotSetting");
+        user.setAccess_expires_at(userService.localDateTimeFormatter("2024-09-24 23:51:08"));
+        user.setRefresh_expires_at(userService.localDateTimeFormatter("2024-09-24 23:51:08"));
+        
 
-        boolean createResults = userService.newUserRegister(user);
+        // 実行
+        boolean isRegisterResult = userService.newUserRegister(user);
 
-        if (createResults == true){
+        if (isRegisterResult == true){
             // 成功
             return "redirect:/";
         } else {
@@ -91,6 +90,8 @@ public class AuthController {
 
     @RequestMapping("/access-denied")
     public String accessDenied() {
+
+        // 権限エラー
 		return "auth/access-denied";
 	}
 }
