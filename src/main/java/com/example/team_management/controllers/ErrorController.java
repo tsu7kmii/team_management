@@ -60,6 +60,16 @@ public class ErrorController {
                 returnLink = "/management";
                 break;
 
+            case "not_equal_password_error":
+                errorMessage = "入力されたパスワードが一致しません。";
+                returnLink = "/change_password";
+                break;
+
+            case "not_change_password_error":
+                errorMessage = "問題が発生しパスワードを変更できませんでした。再度お試しください。";
+                returnLink = "/change_password";
+                break;
+
             default:
                 errorMessage = "エラーハンドリングが設定されてません";
                 returnLink = "/";
