@@ -38,9 +38,12 @@ public class ManagementController {
     @RequestMapping("/management")
     public String managamentView(Model model){
 
+        // 現在が何年か取得
+        String year = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
+
         // 一覧表示
         List<Management> incomplateList = managementService.getAllIncompleteManagementData();
-        List<Management> complateList = managementService.getAllCompletionManagementData();
+        List<Management> complateList = managementService.getAllCompletionManagementData(year);
         Map<Integer, String> userMap = userService.getUserNameList();
 
         // delete_atの日付が古い順に並び替え
@@ -166,5 +169,44 @@ public class ManagementController {
             return "redirect:/error/not_complate_management_error?parms=" + id;
         }
 
+    }
+
+    @RequestMapping("/management/history")
+    public String historyView(Model model){
+
+        List<Integer> yaers = managementService.getComplateYearData();
+
+        if (yaers.isEmpty()) {
+            // 完了済データが存在しない場合
+            return "redirect:/error/no_history_data_error";
+        }
+
+        model.addAttribute("historys", yaers);
+
+        return "management/history";
+    }
+
+    @RequestMapping(value = "/management/history/{year}", method = RequestMethod.GET)
+    public String historyViewYear(@PathVariable String year, Model model){
+
+        List<Integer> yaers = managementService.getComplateYearData();
+
+        if (!yaers.contains(Integer.parseInt(year))) {
+            // 示された年が存在するかチェック
+            return "redirect:/error/year_not_found_error?parms=" + year;
+        }
+
+        // 一覧取得
+        List<Management> yearComplateList = managementService.getAllCompletionManagementData(year);
+        Map<Integer, String> userMap = userService.getUserNameList();
+
+        // delete_atの日付が古い順に並び替え
+        yearComplateList.sort(Comparator.comparing(Management::getDelete_at));
+
+
+        model.addAttribute("history_data", yearComplateList);
+        model.addAttribute("user_list", userMap);
+
+        return "management/year_history";
     }
 }
