@@ -52,7 +52,7 @@
                     <td th:text="${#dates.format(T(java.util.Date).from(incomplate.create_at.atZone(T(java.time.ZoneId).systemDefault()).toInstant()), 'MM/dd')}"></td>
                     
                     <!-- 担当者 -->
-                    <td th:text="${user_list[incomplate.user_id]}"></td>
+                    <td th:text="${user_list.containsKey(incomplate.user_id) ? user_list[incomplate.user_id] : 'deleteduser'}"></td>
                     
                     <!-- 科目 -->
                     <td th:text="${incomplate.subject}"></td>
@@ -161,7 +161,7 @@
                     <td th:text="${#dates.format(T(java.util.Date).from(complate.create_at.atZone(T(java.time.ZoneId).systemDefault()).toInstant()), 'YYYY/MM/dd')}"></td>
                     
                     <!-- 担当者 -->
-                    <td th:text="${user_list[complate.user_id]}"></td>
+                    <td th:text="${user_list.containsKey(complate.user_id) ? user_list[complate.user_id] : 'deleted-user'}"></td>
                     
                     <!-- 科目 -->
                     <td th:text="${complate.subject}"></td>

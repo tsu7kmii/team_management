@@ -51,7 +51,7 @@
                         <td th:text="${#dates.format(T(java.util.Date).from(history.create_at.atZone(T(java.time.ZoneId).systemDefault()).toInstant()), 'YYYY/MM/dd')}"></td>
                         
                         <!-- 担当者 -->
-                        <td th:text="${user_list[history.user_id]}"></td>
+                        <td th:text="${user_list.containsKey(history.user_id) ? user_list[history.user_id] : 'deleted-user'}"></td>
                         
                         <!-- 科目 -->
                         <td th:text="${history.subject}"></td>
