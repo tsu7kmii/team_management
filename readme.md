@@ -14,10 +14,12 @@
 root dir : `docker-compose up -d`
 
 ## in sample data
-`/sampledata` : `docker-compose up -d`
+`/sampledbdata` : `docker-compose up -d`
 
 id : `sample@a.a`
 ps : `sample1`
+
+他メールアドレスのローカル部分がパスワード
 
 ## 基本設計書
 [こちら](./BasicDesign.md)
