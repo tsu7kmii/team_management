@@ -17,10 +17,14 @@ public class UserDetailsServiceImpl implements UserDetailsService{
     @Autowired
     UserDao dao;
 
+    /**
+     * ユーザー名でユーザーをロードするメソッド
+     * @param email ユーザーのメールアドレス
+     * @return UserDetails ユーザーの詳細情報
+     * @throws UsernameNotFoundException ユーザーが見つからない場合にスローされる例外
+     */
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        // DBからユーザー情報をSELECTする。
-		// ユーザーが見つからない場合は例外をスローする
         User user = dao.findByEmail(email)
                     .orElseThrow(() -> {
                         System.out.println("ユーザー:" + email + "が見つかりません。");
@@ -34,6 +38,11 @@ public class UserDetailsServiceImpl implements UserDetailsService{
             .build();
     }
 
+    /**
+     * ユーザーの権限レベルをロールにマッピングするメソッド
+     * @param role ユーザーの権限レベル
+     * @return String マッピングされたロール
+     */
     private String mapRole(int role){
         if (role == 1){
             return "ADMIN";

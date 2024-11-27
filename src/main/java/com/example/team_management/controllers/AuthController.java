@@ -24,7 +24,9 @@ import com.example.team_management.services.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-
+/**
+ * 認証コントローラー
+ */
 @Controller
 public class AuthController {
     
@@ -33,6 +35,14 @@ public class AuthController {
 
     SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();
 
+    /**
+     * 新規ユーザー登録処理
+     * 
+     * @param signupValidation サインアップバリデーション
+     * @param bindingResult バインディング結果
+     * @param model モデル
+     * @return リダイレクト先
+     */
     @RequestMapping(value = "/user_register", method = RequestMethod.POST)
     public String newUserRegister(@Validated SignupValidation signupValidation, BindingResult bindingResult, Model model){
 
@@ -67,6 +77,14 @@ public class AuthController {
         }                  
     }
 
+    /**
+     * パスワード変更処理
+     * 
+     * @param passwordChangeValidation パスワード変更バリデーション
+     * @param bindingResult バインディング結果
+     * @param userDetails ユーザーディテール
+     * @return リダイレクト先
+     */
     @RequestMapping(value = "/user_change_password", method=RequestMethod.POST)
     public String changePasswordRegister(@Validated PasswordChangeValidation passwordChangeValidation,
                                     BindingResult bindingResult,
@@ -94,6 +112,14 @@ public class AuthController {
         }
     }
 
+    /**
+     * 名前変更処理
+     * 
+     * @param nameChangeValidation 名前変更バリデーション
+     * @param bindingResult バインディング結果
+     * @param userDetails ユーザーディテール
+     * @return リダイレクト先
+     */
     @RequestMapping(value = "/user_change_name", method=RequestMethod.POST)
     public String changeNameRegister(@Validated NameChangeValidation nameChangeValidation,
                                     BindingResult bindingResult,
@@ -116,6 +142,13 @@ public class AuthController {
         }
     }
 
+    /**
+     * 権限変更処理
+     * 
+     * @param userId ユーザーID
+     * @param requestRole リクエストロール
+     * @return リダイレクト先
+     */
     @RequestMapping("/admin/change_role")
     public String changeRoleRegister(@RequestParam("user_id") Integer userId,
                                         @RequestParam("request_role") Integer requestRole){
@@ -131,6 +164,12 @@ public class AuthController {
         }
     }
 
+    /**
+     * ユーザー削除処理
+     * 
+     * @param userId ユーザーID
+     * @return リダイレクト先
+     */
     @RequestMapping("/admin/delete_user")
     public String deleteUserRegister(@RequestParam("user_id") Integer userId){
 
@@ -145,7 +184,11 @@ public class AuthController {
         }
     }
     
-
+    /**
+     * ログイン画面表示
+     * 
+     * @return ログイン画面
+     */
     @RequestMapping("/login")
     public String login(){
 
@@ -153,6 +196,14 @@ public class AuthController {
         return "auth/login";
     }
 
+    /**
+     * ログアウト処理
+     * 
+     * @param authentication 認証情報
+     * @param request リクエスト
+     * @param response レスポンス
+     * @return リダイレクト先
+     */
     @RequestMapping("/logout")
     public String logout(Authentication authentication, HttpServletRequest request, HttpServletResponse response){
         
@@ -161,6 +212,12 @@ public class AuthController {
         return "redirect:/login?logout";
     }
 
+    /**
+     * 新規アカウント登録画面表示
+     * 
+     * @param signupValidation アカウント作成バリデーション
+     * @return 新規アカウント登録画面
+     */
     @RequestMapping("/sign_up")
     public String viewRegister(SignupValidation signupValidation){
 
@@ -168,6 +225,12 @@ public class AuthController {
         return "auth/sign_up";
     }
 
+    /**
+     * パスワード変更画面表示
+     * 
+     * @param passwordChangeValidation パスワード変更バリデーション
+     * @return パスワード変更画面
+     */
     @RequestMapping("/change_password")
     public String viewChangePassword(PasswordChangeValidation passwordChangeValidation){
 
@@ -175,6 +238,12 @@ public class AuthController {
         return "auth/change_password";
     }
 
+    /**
+     * 名前変更画面表示
+     * 
+     * @param nameChangeValidation 名前変更バリデーション
+     * @return 名前変更画面
+     */
     @RequestMapping("/change_name")
     public String viewChangeName(NameChangeValidation nameChangeValidation){
 
@@ -182,6 +251,12 @@ public class AuthController {
         return "auth/change_name";
     }
 
+    /**
+     * ユーザー管理画面表示
+     * 
+     * @param model モデル
+     * @return ユーザー管理画面
+     */
     @RequestMapping("/admin/user_list")
     public String viewUserList(Model model){
         

@@ -25,16 +25,18 @@ public class SecurityConfig{
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         http.authorizeHttpRequests((requests) ->requests
             .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
+            // 未ログインで閲覧可能
             .requestMatchers("/sign_up","/user_register","/error/**").permitAll()
+            // 管理者権限が閲覧に必要
             .requestMatchers("/admin/**").hasRole("ADMIN")
             .anyRequest().authenticated()
         )
-            .exceptionHandling((exceptions) -> exceptions
             // 権限エラー時のリダイレクト
+            .exceptionHandling((exceptions) -> exceptions
             .accessDeniedPage("/access-denied") 
         )
             .formLogin((form) -> form
-            // ログインページへのパスを指定→コントローラーにもGET、/loginでの処理を記載する必要がある
+            // ログインページへのパスを指定
             .loginPage("/login")
             // ログイン成功時に表示される画面へのパス
             .defaultSuccessUrl("/",true)
