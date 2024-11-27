@@ -1,5 +1,7 @@
 package com.example.team_management.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -11,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.team_management.models.user.NameChangeValidation;
 import com.example.team_management.models.user.PasswordChangeValidation;
@@ -112,6 +115,35 @@ public class AuthController {
             return "redirect:/error/not_change_name_error";
         }
     }
+
+    @RequestMapping("/admin/change_role")
+    public String changeRoleRegister(@RequestParam("user_id") Integer userId,
+                                        @RequestParam("request_role") Integer requestRole){
+        
+        // 権限変更
+        boolean isChangeRoleResult = userService.changeUserPermissionLevelById(userId, requestRole); 
+        
+        if (isChangeRoleResult){
+            // 成功
+            return "redirect:/admin/user_list";
+        } else {
+            return "redirect:/error/not_change_role_error";
+        }
+    }
+
+    @RequestMapping("/admin/delete_user")
+    public String deleteUserRegister(@RequestParam("user_id") Integer userId){
+
+        // ユーザー削除
+        boolean isDeleteUserResult = userService.deleteUserById(userId);
+
+        if (isDeleteUserResult){
+            // 成功
+            return "redirect:/admin/user_list";
+        } else {
+            return "redirect:/error/not_delete_user_error";
+        }
+    }
     
 
     @RequestMapping("/login")
@@ -156,4 +188,14 @@ public class AuthController {
         // 権限エラー
 		return "auth/access-denied";
 	}
+
+    @RequestMapping("/admin/user_list")
+    public String viewUserList(Model model){
+        
+        List<User> userList = userService.getAllUserList();
+
+        model.addAttribute("users", userList);
+
+        return "auth/user_list";
+    }
 }
