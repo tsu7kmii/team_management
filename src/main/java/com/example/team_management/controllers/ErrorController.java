@@ -10,9 +10,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class ErrorController {
 
-    
-    @RequestMapping(value = "/error/{error}",method = RequestMethod.GET)
-    public String errorHangling(@PathVariable String error, @RequestParam(required = false) String param, Model model){
+    /**
+     * エラーハンドリングを行うメソッド
+     * @param error エラーコード
+     * @param param 追加のパラメータ
+     * @param model モデルオブジェクト
+     * @return エラーページのビュー名
+     */
+    @RequestMapping(value = "/error/{error}", method = RequestMethod.GET)
+    public String errorHangling(@PathVariable String error, @RequestParam(required = false) String param, Model model) {
 
         model.addAttribute("error_title", error);
 
@@ -29,7 +35,7 @@ public class ErrorController {
                 errorMessage = "このメールアドレスは既に使用されています: " + param + "。違うメールアドレスを使用してください";
                 returnLink = "/sign_up";
                 break;
-        
+
             case "add_management_error":
                 errorMessage = "マネジメントの登録時にエラーが発生しました。再度試してください。";
                 returnLink = "/register_form";
@@ -97,6 +103,10 @@ public class ErrorController {
         return "error";
     }
 
+    /**
+     * アクセス拒否時の処理を行うメソッド
+     * @return アクセス拒否ページのビュー名
+     */
     @RequestMapping("/access-denied")
     public String accessDenied() {
 

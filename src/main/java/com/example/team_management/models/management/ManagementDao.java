@@ -6,25 +6,58 @@ import org.springframework.dao.DataAccessException;
 
 public interface ManagementDao {
 
-    // データ追加
-    public int addManagementData(Management manaegment) throws DataAccessException;
+    /**
+     * 進捗データ追加
+     * @param management 進捗データ
+     * @return 追加された行数
+     * @throws DataAccessException データアクセス例外
+     */
+    public int addManagementData(Management management) throws DataAccessException;
 
-    // 全完了の年データ取得
+    /**
+     * 完了年データ取得
+     * @return 完了年のリスト
+     * @throws DataAccessException データアクセス例外
+     */
     public List<Integer> getComplateYearData() throws DataAccessException;
 
-    // 全年別完了データ取得
+    /**
+     * 年別完了データ取得
+     * @param year 年
+     * @return 完了データのリスト
+     * @throws DataAccessException データアクセス例外
+     */
     public List<Management> getAllCompletionManagementData(String year) throws DataAccessException;
 
-    // 全未完了データ取得
+    /**
+     * 未完了データ取得
+     * @return 未完了データのリスト
+     * @throws DataAccessException データアクセス例外
+     */
     public List<Management> getAllIncompleteManagementData() throws DataAccessException;
     
-    // idベースで1データを取得
+    /**
+     * IDによる進捗データ取得
+     * @param id 管理ID
+     * @return 進捗データ
+     * @throws DataAccessException データアクセス例外
+     */
     public Management getManagementDataById(String id) throws DataAccessException;
 
-    // idベースで1データ更新
+    /**
+     * 進捗データ更新
+     * @param management 進捗データ
+     * @return 更新された行数
+     * @throws DataAccessException データアクセス例外
+     */
     public int updateManagementData(Management management) throws DataAccessException;
 
-    // delete_atを追加
+    /**
+     * IDによる進捗データ削除(delete_atの追加)
+     * @param id 管理ID
+     * @return 削除された行数
+     * @throws DataAccessException データアクセス例外
+     */
     public int deleteManagementDataById(String id) throws DataAccessException;
 
 }

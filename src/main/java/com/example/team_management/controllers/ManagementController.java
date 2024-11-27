@@ -30,7 +30,12 @@ public class ManagementController {
     @Autowired
     UserService userService;
 
-
+    /**
+     * トップ画面表示
+     * 
+     * @param model モデル
+     * @return トップ画面
+     */
     @RequestMapping("/")
     public String viewToppage(Model model){
 
@@ -48,6 +53,12 @@ public class ManagementController {
         return "index";
     }
 
+    /**
+     * 進行中・当年完了済み進捗表示画面
+     * 
+     * @param model モデル
+     * @return 進行中・当年完了済み進捗表示画面
+     */
     @RequestMapping("/view")
     public String viewManagementTable(Model model){
 
@@ -70,6 +81,13 @@ public class ManagementController {
         return "management/management";
     }
 
+    /**
+     * 新規進捗追加登録画面
+     * 
+     * @param userDetails ユーザーディテール
+     * @param model モデル
+     * @return 新規進捗追加登録画面
+     */
     @RequestMapping("/register_form")
     public String viewRegisterItem(@AuthenticationPrincipal UserDetails userDetails ,Model model){
 
@@ -86,6 +104,16 @@ public class ManagementController {
         return "management/register_item";
     }
 
+    /**
+     * 進捗登録
+     * 
+     * @param userId ユーザーID
+     * @param subject 科目
+     * @param link 課題リンク
+     * @param status ステータス
+     * @param comDate 完了予定日
+     * @return リダイレクト先
+     */
     @RequestMapping(value = "/item_register", method = RequestMethod.POST)
     public String itemRegister(@RequestParam("user_id") Integer userId,
                                 @RequestParam("subject") String subject,
@@ -115,8 +143,13 @@ public class ManagementController {
         }
     }
 
-
-    
+    /**
+     * 進捗内容編集・完了画面
+     * 
+     * @param id 管理ID
+     * @param model モデル
+     * @return 進捗内容編集・完了画面
+     */
     @RequestMapping(value = "/view/edit/{id}", method = RequestMethod.GET)
     public String viewManagementEdit(@PathVariable String id,Model model){
 
@@ -129,14 +162,23 @@ public class ManagementController {
             return "redirect:/error/not_found_edit_item_error";
         }
 
-
-
         model.addAttribute("user_list", userMap);
         model.addAttribute("management_data", management);
 
         return "management/edit_item";
     }
 
+    /**
+     * 進捗編集登録
+     * 
+     * @param managementId 管理ID
+     * @param userId ユーザーID
+     * @param subject 件名
+     * @param link リンク
+     * @param status ステータス
+     * @param comDate 完了予定日
+     * @return リダイレクト先
+     */
     @RequestMapping(value = "/edit_register", method = RequestMethod.POST)
     public String itemEditRegister(@RequestParam("management_id") Integer managementId,
                                 @RequestParam("user_id") Integer userId,
@@ -168,6 +210,12 @@ public class ManagementController {
         }
     }
 
+    /**
+     * 進捗完了登録
+     * 
+     * @param id 管理ID
+     * @return リダイレクト先
+     */
     @RequestMapping(value = "/management/complate/{id}", method = RequestMethod.GET)
     public String managementComplateRegister(@PathVariable String id){
 
@@ -184,6 +232,12 @@ public class ManagementController {
 
     }
 
+    /**
+     * 年別完了済み進捗項目表示画面
+     * 
+     * @param model モデル
+     * @return 年別完了済み進捗項目表示画面
+     */
     @RequestMapping("/view/history")
     public String viewManagementHistoryLog(Model model){
 
@@ -199,6 +253,13 @@ public class ManagementController {
         return "management/history";
     }
 
+    /**
+     * 年別完了済み進捗表示画面
+     * 
+     * @param year 年
+     * @param model モデル
+     * @return 年別完了済み進捗表示画面
+     */
     @RequestMapping(value = "/view/history/{year}", method = RequestMethod.GET)
     public String viewManagementHistory(@PathVariable String year, Model model){
 

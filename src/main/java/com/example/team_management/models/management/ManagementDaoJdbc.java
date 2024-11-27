@@ -9,43 +9,53 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+/**
+ * ManagementDaoJdbcクラス
+ * データベース操作を行うクラス
+ */
 @Repository("ManagementDaoJdbc")
 public class ManagementDaoJdbc implements ManagementDao{
 
     @Autowired
     JdbcTemplate jdbc;
 
-
+    /**
+     * 進捗データ追加
+     * @param management 進捗データ
+     * @return 追加された行数
+     * @throws DataAccessException データアクセス例外
+     */
     @Override
-    public int addManagementData(Management manaegment) throws DataAccessException {
-        // データ追加
+    public int addManagementData(Management management) throws DataAccessException {
         int rowNumber = jdbc.update("INSERT INTO management(user_id, subject, link, status,completion_schedule) VALUES (?,?,?,?,?)", 
-                                        manaegment.getUser_id(), manaegment.getSubject(), manaegment.getLink(), manaegment.getStatus(), manaegment.getCompletion_schedule());
+                                        management.getUser_id(), management.getSubject(), management.getLink(), management.getStatus(), management.getCompletion_schedule());
         return rowNumber;
     }
 
+    /**
+     * 完了年データ取得
+     * @return 完了年のリスト
+     * @throws DataAccessException データアクセス例外
+     */
     @Override
     public List<Integer> getComplateYearData() throws DataAccessException {
-        // 全完了の年データ取得
         List<Integer> years = jdbc.queryForList("SELECT DISTINCT YEAR(delete_at) FROM management WHERE delete_at IS NOT null", Integer.class);
-
         return years;
     }
 
-
+    /**
+     * 年別完了データ取得
+     * @param year 年
+     * @return 完了データのリスト
+     * @throws DataAccessException データアクセス例外
+     */
     @Override
     public List<Management> getAllCompletionManagementData(String year) throws DataAccessException {
-        // 全年別完了データ取得
         List<Map<String, Object>> geList = jdbc.queryForList("SELECT * FROM management WHERE delete_at IS NOT null AND YEAR(delete_at) = ?",year);
-
-        // リターン用インスタンスを生成
         List<Management> managementList = new ArrayList<>();
 
         for (Map<String, Object> map : geList){
-
-            // インスタンスの生成と初期化
             Management management = new Management();
-
             management.setManagement_id((Integer) map.get("management_id"));
             management.setUser_id((Integer) map.get("user_id"));
             management.setSubject((String) map.get("subject"));
@@ -55,28 +65,24 @@ public class ManagementDaoJdbc implements ManagementDao{
             management.setUpdate_at((LocalDateTime) map.get("update_at"));
             management.setDelete_at((LocalDateTime) map.get("delete_at"));
             management.setCompletion_schedule((Date) map.get("completion_schedule"));
-
-            // リターン用リストに追加
             managementList.add(management);
         }
 
         return managementList;
     }
 
-
+    /**
+     * 未完了データ取得
+     * @return 未完了データのリスト
+     * @throws DataAccessException データアクセス例外
+     */
     @Override
     public List<Management> getAllIncompleteManagementData() throws DataAccessException {
-        // 全未完了データ取得
         List<Map<String, Object>> getList = jdbc.queryForList("SELECT * FROM management WHERE delete_at IS null");
-
-        // リターン用インスタンスを生成
         List<Management> managementList = new ArrayList<>();
 
         for (Map<String, Object> map : getList){
-
-            // インスタンスの生成と初期化
             Management management = new Management();
-
             management.setManagement_id((Integer) map.get("management_id"));
             management.setUser_id((Integer) map.get("user_id"));
             management.setSubject((String) map.get("subject"));
@@ -86,28 +92,25 @@ public class ManagementDaoJdbc implements ManagementDao{
             management.setUpdate_at((LocalDateTime) map.get("update_at"));
             management.setDelete_at((LocalDateTime) map.get("delete_at"));
             management.setCompletion_schedule((Date) map.get("completion_schedule"));
-
-            // リターン用リストに追加
             managementList.add(management);
         }
 
         return managementList;
     }
 
-
+    /**
+     * IDによる進捗データ取得
+     * @param id 管理ID
+     * @return 進捗データ
+     * @throws DataAccessException データアクセス例外
+     */
     @Override
     public Management getManagementDataById(String id) throws DataAccessException {
-        // idベースで1データを取得
         List<Map<String, Object>> getList = jdbc.queryForList("SELECT * FROM management WHERE management_id = ?",id);
-
-        // 取得出来たらそのデータ(Listの0)データがなければnull
         Map<String,Object> map = getList.isEmpty() ? null : getList.get(0);
-
-        // リターン用インスタンス生成
         Management management = new Management();
 
         if (map != null){
-
             management.setManagement_id((Integer) map.get("management_id"));
             management.setUser_id((Integer) map.get("user_id"));
             management.setSubject((String) map.get("subject"));
@@ -117,33 +120,36 @@ public class ManagementDaoJdbc implements ManagementDao{
             management.setUpdate_at((LocalDateTime) map.get("update_at"));
             management.setDelete_at((LocalDateTime) map.get("delete_at"));
             management.setCompletion_schedule((Date) map.get("completion_schedule"));
-
         } else {
-
-            // 存在しないIDの場合
             management.setManagement_id(-1);
             management.setDelete_at((LocalDateTime) LocalDateTime.now());
-
         }
 
         return management;
     }
 
-
+    /**
+     * 進捗データ更新
+     * @param management 進捗データ
+     * @return 更新された行数
+     * @throws DataAccessException データアクセス例外
+     */
     @Override
     public int updateManagementData(Management management) throws DataAccessException {
-        // idベースで1データ更新
         int rowNumber = jdbc.update("UPDATE management SET user_id = ?, subject = ?, link = ?, status = ?, update_at = CURRENT_TIMESTAMP, completion_schedule = ? WHERE management_id = ?",
                                     management.getUser_id(), management.getSubject(), management.getLink(), management.getStatus(), management.getCompletion_schedule(), management.getManagement_id());
         return rowNumber;
     }
 
-
+    /**
+     * IDによる進捗データ削除(delete_atの追加)
+     * @param id 管理ID
+     * @return 削除された行数
+     * @throws DataAccessException データアクセス例外
+     */
     @Override
     public int deleteManagementDataById(String id) throws DataAccessException {
-        // delete_atを追加
         int rowNumber = jdbc.update("UPDATE management SET status = 5, update_at = CURRENT_TIMESTAMP, delete_at = CURRENT_TIMESTAMP WHERE management_id = ?", id);
         return rowNumber;
     }
 }
-
