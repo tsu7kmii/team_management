@@ -10,12 +10,17 @@
 `localhost:8080`
 
 #### db
-`docker-compose up -d`
+## no sample data
+root dir : `docker-compose up -d`
 
+## in sample data
+`/sampledata` : `docker-compose up -d`
 
-id : `nishino@a.a`
-ps : `password`
+id : `sample@a.a`
+ps : `sample1`
 
+## 基本設計書
+[こちら](./BasicDesign.md)
 
 ##
 
@@ -24,3 +29,8 @@ ps : `password`
 [【Spring Security】SecurityFilterChainとカスタムUserDetailsService](https://zenn.dev/peishim/articles/c225ac5a5eedb0)  
 [【初心者用】Spring Security でユーザー認証・登録を実装する手順のまとめ](https://qiita.com/t-yama-3/items/a538d47b8f0a27639d23)
 
+
+## 今後の課題
+ - メール機能の追加
+ - パスワードリセット機能
+ - 変更履歴機能
