@@ -96,4 +96,11 @@ public class ErrorController {
 
         return "error";
     }
+
+    @RequestMapping("/access-denied")
+    public String accessDenied() {
+
+        // 権限エラー
+		return "auth/access-denied";
+	}
 }

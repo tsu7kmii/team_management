@@ -182,13 +182,6 @@ public class AuthController {
         return "auth/change_name";
     }
 
-    @RequestMapping("/access-denied")
-    public String accessDenied() {
-
-        // 権限エラー
-		return "auth/access-denied";
-	}
-
     @RequestMapping("/admin/user_list")
     public String viewUserList(Model model){
         
