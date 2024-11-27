@@ -1,0 +1,76 @@
+<html xmlns:th="http://www.thymeleaf.org"></html>
+<head th:replace="~{common/common :: meta_header('Register management',~{::link},~{::script})}"></head>
+
+<body>
+    <div th:replace="~{common/common :: nav}"></div>
+    <div th:replace="~{common/common :: pagetitle}"></div>
+
+    <br><br>
+
+    <div class="front-mount">
+        <table class="table table-striped">
+            <thead style="text-align:left">
+                <tr>
+                    <th>user-id</th>
+                    <th>user-name</th>
+                    <th>user-email</th>
+                    <th>user-role</th>
+                    <th>change-role</th>
+                    <td></td>
+                    <th>delete-user</th>
+                </tr>
+            </thead>
+                <tr th:each="user : ${users}">
+                    <td th:text="${user.user_id}"></td>
+                    <td th:text="${user.user_name}"></td>
+                    <td th:text="${user.email}"></td>
+                    <div th:switch="${user.permission_level}">
+                        <div th:case="1">
+                            <td>ADMIN</td>
+                        </div>
+                        <div th:case="2">
+                            <td>USER</td>
+                        </div>
+                        <div th:case="3">
+                            <td>OTHER</td>
+                        </div>
+                    </div>
+                    <div th:switch="${user.permission_level}">
+                        <div th:case="1">
+                            <td class="button-td">
+                                <form th:action="@{/admin/change_role}" method="post"class="custom-form-reset center-form">
+                                    <input type="hidden" name="user_id" th:value="${user.user_id}">
+                                    <input type="hidden" name="request_role" value="2">
+                                    <button type="submit" class="btn btn-outline-primary">USERにする</button>
+                                </form>
+                            </td>
+                        </div>
+                        <div th:case="2">
+                            <td class="button-td">
+                                <form th:action="@{/admin/change_role}" method="post"class="custom-form-reset center-form">
+                                    <input type="hidden" name="user_id" th:value="${user.user_id}">
+                                    <input type="hidden" name="request_role" value="1">
+                                    <button type="submit" class="btn btn-outline-primary">ADMINにする</button>
+                                </form>
+                            </td>
+                        </div>
+                    </div>
+                    <td></td>
+                    <div>
+                        <td class="button-td">
+                            <form th:action="@{/admin/delete_user}" method="post"class="custom-form-reset center-form">
+                                <input type="hidden" name="user_id" th:value="${user.user_id}">
+                                <button type="submit" class="btn btn-outline-danger">削除</button>
+                            </form>
+                        </td>
+                    </div>
+                </tr>
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+
+    
+</body>
+</html>
