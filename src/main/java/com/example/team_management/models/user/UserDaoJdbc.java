@@ -16,7 +16,7 @@ public class UserDaoJdbc implements UserDao{
 
     @Override
     public Map<Integer, String> getUserNameList() throws DataAccessException {
-        // 全ユーザー情報取得
+        // 全<id:name>セットユーザー情報取得
         List<Map<String, Object>> getList = jdbc.queryForList("SELECT * FROM user_table");
 
         HashMap<Integer, String> userMap = new HashMap<>();
@@ -102,4 +102,44 @@ public class UserDaoJdbc implements UserDao{
         return rowNumber;
     }
 
+    @Override
+    public List<User> getAllUserList() throws DataAccessException {
+        // ユーザー一覧表示用ユーザー情報取得
+        List<Map<String, Object>> getList = jdbc.queryForList("SELECT * FROM user_table WHERE delete_at IS NULL ");
+
+        // 返却用リスト
+        List<User> userList = new ArrayList<>();
+
+        for (Map<String, Object> map : getList){
+
+            // インスタンス生成と初期化
+            User user = new User();
+
+            user.setUser_id((Integer) map.get("user_id"));
+            user.setUser_name((String) map.get("user_name"));
+            user.setEmail((String) map.get("email"));
+            user.setPermission_level((Integer) map.get("permission_level"));
+
+            // 返却用のリストに追加
+            userList.add(user);
+        }
+
+        return userList;
+    }
+
+    @Override
+    public int changeUserPermissionLevelById(Integer id, Integer level) throws DataAccessException {
+        // ユーザー権限変更
+        int rowNumber = jdbc.update("UPDATE user_table SET permission_level = ?, update_at = CURRENT_TIMESTAMP WHERE user_id = ?", level,id);
+
+        return rowNumber;
+    }
+
+    @Override
+    public int deleteUserById(Integer id) throws DataAccessException {
+        // ユーザー削除
+        int rowNumber = jdbc.update("UPDATE user_table SET delete_at = CURRENT_TIMESTAMP WHERE user_id = ?", id);
+
+        return rowNumber;
+    }
 }

@@ -1,13 +1,12 @@
 package com.example.team_management.models.user;
 
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 import org.springframework.dao.DataAccessException;
 
 public interface UserDao {
     
-    // 全ユーザー情報取得
+    // 全<id:name>セットユーザー情報取得
     public Map<Integer, String> getUserNameList() throws DataAccessException;
 
     // 新規登録
@@ -27,4 +26,13 @@ public interface UserDao {
 
     // 名前変更
     public int changeNameByEmail(String email, String newName) throws DataAccessException;
+
+    // ユーザー一覧表示用ユーザー情報取得
+    public List<User> getAllUserList() throws DataAccessException;
+
+    // ユーザー権限変更
+    public int changeUserPermissionLevelById(Integer id, Integer level) throws DataAccessException;
+    
+    // ユーザー削除
+    public int deleteUserById(Integer id) throws DataAccessException;
 }

@@ -2,6 +2,7 @@ package com.example.team_management.services;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,7 @@ public class UserService {
     @Autowired
     PasswordEncoder passwordEncoder;
 
-    // 全ユーザー情報取得
+    // 全<id:name>セットユーザー情報取得
     public Map<Integer, String> getUserNameList(){
         
         return dao.getUserNameList();
@@ -87,6 +88,37 @@ public class UserService {
     // 名前変更
     public boolean changeNameByEmail(String email, String newName){
         int rowNumber = dao.changeNameByEmail(email, newName);
+
+        boolean result = false;
+
+        if (rowNumber > 0) {
+            // 成功
+            result = true;
+        }
+        return result;
+    }
+
+    // ユーザー一覧表示
+    public List<User> getAllUserList(){
+        return dao.getAllUserList();
+    }
+
+    // ユーザー権限変更
+    public boolean changeUserPermissionLevelById(Integer id, Integer level){
+        int rowNumber = dao.changeUserPermissionLevelById(id, level);
+
+        boolean result = false;
+
+        if (rowNumber > 0) {
+            // 成功
+            result = true;
+        }
+        return result;
+    }
+
+    // ユーザー削除
+    public boolean deleteUserById(Integer id){
+        int rowNumber = dao.deleteUserById(id);
 
         boolean result = false;
 
