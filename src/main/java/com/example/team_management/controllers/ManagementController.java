@@ -29,14 +29,14 @@ public class ManagementController {
 
 
     @RequestMapping("/")
-    public String tableview(Model model){
+    public String viewToppage(Model model){
 
         // top page
         return "index";
     }
 
     @RequestMapping("/management")
-    public String managamentView(Model model){
+    public String viewManagementTable(Model model){
 
         // 現在が何年か取得
         String year = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
@@ -58,7 +58,7 @@ public class ManagementController {
     }
 
     @RequestMapping("/register_form")
-    public String formItem(@AuthenticationPrincipal UserDetails userDetails ,Model model){
+    public String viewRegisterItem(@AuthenticationPrincipal UserDetails userDetails ,Model model){
 
         Map<Integer, String> userMap = userService.getUserNameList();
 
@@ -105,7 +105,7 @@ public class ManagementController {
 
     
     @RequestMapping(value = "/management/edit/{id}", method = RequestMethod.GET)
-    public String managementEdit(@PathVariable String id,Model model){
+    public String viewManagementEdit(@PathVariable String id,Model model){
 
         // 編集
         Map<Integer, String> userMap = userService.getUserNameList();
@@ -156,7 +156,7 @@ public class ManagementController {
     }
 
     @RequestMapping(value = "/management/complate/{id}", method = RequestMethod.GET)
-    public String managementComplate(@PathVariable String id){
+    public String managementComplateRegister(@PathVariable String id){
 
         // 完了
         boolean isDeleteManagementResult = managementService.deleteManagementDataById(id);
@@ -172,7 +172,7 @@ public class ManagementController {
     }
 
     @RequestMapping("/management/history")
-    public String historyView(Model model){
+    public String viewManagementHistoryLog(Model model){
 
         List<Integer> yaers = managementService.getComplateYearData();
 
@@ -187,7 +187,7 @@ public class ManagementController {
     }
 
     @RequestMapping(value = "/management/history/{year}", method = RequestMethod.GET)
-    public String historyViewYear(@PathVariable String year, Model model){
+    public String viewManagementHistory(@PathVariable String year, Model model){
 
         List<Integer> yaers = managementService.getComplateYearData();
 
