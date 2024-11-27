@@ -75,6 +75,16 @@ public class ErrorController {
                 returnLink = "/change_naem";
                 break;
 
+            case "not_change_role_error":
+                errorMessage = "問題が発生し権限レベルを変更できませんでした。再度お試しください。";
+                returnLink = "/admin/user_list";
+                break;
+
+            case "not_delete_user_error":
+                errorMessage = "問題が発生しユーザーを削除できませんでした。再度お試しください。";
+                returnLink = "/admin/delete_user";
+                break;
+
             default:
                 errorMessage = "エラーハンドリングが設定されてません";
                 returnLink = "/";
