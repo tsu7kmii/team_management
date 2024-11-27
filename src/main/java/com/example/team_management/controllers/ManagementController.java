@@ -5,7 +5,10 @@ import java.util.*;
 import java.sql.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,7 +34,17 @@ public class ManagementController {
     @RequestMapping("/")
     public String viewToppage(Model model){
 
-        // top page
+        // ログインユーザーが管理者かチェック
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        boolean isAdmin = auth.getAuthorities().stream()
+                              .map(GrantedAuthority::getAuthority)
+                              .anyMatch(role -> role.equals("ROLE_ADMIN"));
+
+        // 結果を渡す
+        model.addAttribute("isAdmin", isAdmin);
+
         return "index";
     }
 
