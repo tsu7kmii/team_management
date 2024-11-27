@@ -26,8 +26,12 @@ public class SecurityConfig{
         http.authorizeHttpRequests((requests) ->requests
             .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
             .requestMatchers("/sign_up","/user_register","/error/**").permitAll()
-            .requestMatchers("/admin/**").hasAuthority("ADMIN")
+            .requestMatchers("/admin/**").hasRole("ADMIN")
             .anyRequest().authenticated()
+        )
+            .exceptionHandling((exceptions) -> exceptions
+            // 権限エラー時のリダイレクト
+            .accessDeniedPage("/access-denied") 
         )
             .formLogin((form) -> form
             // ログインページへのパスを指定→コントローラーにもGET、/loginでの処理を記載する必要がある
