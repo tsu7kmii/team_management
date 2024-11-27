@@ -104,7 +104,7 @@
                     <!-- 詳細ページ遷移 -->
                     <div>
                         <td class="button-td">
-                            <form th:action="@{/management/edit/{id}(id=${incomplate.management_id})}" method="get" class="custom-form-reset center-form">
+                            <form th:action="@{/view/edit/{id}(id=${incomplate.management_id})}" method="get" class="custom-form-reset center-form">
                                 <button type="submit" class="btn btn-outline-primary">Edit</button>
                             </form>
                         </td>
@@ -124,7 +124,7 @@
 
             <nav class="navbar bg-body-tertiary">
                 <div class="container-fluid">
-                    <a class="navbar-brand" href="/management/history"> - History</a>
+                    <a class="navbar-brand" href="/view/history"> - History</a>
                 </div>
             </nav>
         </div>
@@ -136,7 +136,7 @@
 
         <nav class="navbar bg-body-tertiary">
             <div class="container-fluid">
-                <a class="navbar-brand" href="/management/history"> - History</a>
+                <a class="navbar-brand" href="/view/history"> - History</a>
             </div>
         </nav>
 

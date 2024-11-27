@@ -35,7 +35,7 @@ public class ManagementController {
         return "index";
     }
 
-    @RequestMapping("/management")
+    @RequestMapping("/view")
     public String viewManagementTable(Model model){
 
         // 現在が何年か取得
@@ -95,7 +95,7 @@ public class ManagementController {
 
         if (isAddManagementResult){
             // 成功
-            return "redirect:/management";
+            return "redirect:/view";
         } else {
             // 失敗
             return "redirect:/error/add_management_error";
@@ -104,7 +104,7 @@ public class ManagementController {
 
 
     
-    @RequestMapping(value = "/management/edit/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/view/edit/{id}", method = RequestMethod.GET)
     public String viewManagementEdit(@PathVariable String id,Model model){
 
         // 編集
@@ -148,7 +148,7 @@ public class ManagementController {
 
         if (isUpdateManagementResult){
             // 成功
-            return "redirect:/management";
+            return "redirect:/view";
         } else {
             // 失敗
             return "redirect:/error/edit_management_error?param=" + managementId;
@@ -163,7 +163,7 @@ public class ManagementController {
 
         if (isDeleteManagementResult){
             // 成功
-            return "redirect:/management";
+            return "redirect:/view";
         } else {
             // 失敗
             return "redirect:/error/not_complate_management_error?param=" + id;
@@ -171,7 +171,7 @@ public class ManagementController {
 
     }
 
-    @RequestMapping("/management/history")
+    @RequestMapping("/view/history")
     public String viewManagementHistoryLog(Model model){
 
         List<Integer> yaers = managementService.getComplateYearData();
@@ -186,7 +186,7 @@ public class ManagementController {
         return "management/history";
     }
 
-    @RequestMapping(value = "/management/history/{year}", method = RequestMethod.GET)
+    @RequestMapping(value = "/view/history/{year}", method = RequestMethod.GET)
     public String viewManagementHistory(@PathVariable String year, Model model){
 
         List<Integer> yaers = managementService.getComplateYearData();

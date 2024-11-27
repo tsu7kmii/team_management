@@ -37,27 +37,27 @@ public class ErrorController {
 
             case "not_found_edit_item_error":
                 errorMessage = "指定されたマネジメント項目は存在しないか、既に完了済の可能性があります。";
-                returnLink = "/management";
+                returnLink = "/view";
                 break;
 
             case "edit_management_error":
                 errorMessage = "マネジメントの変更時にエラーが発生しました。再度試してください。";
-                returnLink = "/management/edit/" + param;
+                returnLink = "/view/edit/" + param;
                 break;
 
             case "not_complate_management_error":
                 errorMessage = "マネジメントの完了時にエラーが発生しました。再度試してください。";
-                returnLink = "/management/edit/" + param;
+                returnLink = "/view/edit/" + param;
                 break;
 
             case "year_not_found_error":
                 errorMessage = "指定された" + param + "年のデータは存在しません。";
-                returnLink = "/management/history";
+                returnLink = "/view/history";
                 break;
 
             case "no_history_data_error":
                 errorMessage = "過去の完了済データは存在しません。";
-                returnLink = "/management";
+                returnLink = "/view";
                 break;
 
             case "not_equal_password_error":
