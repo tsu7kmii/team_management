@@ -1,0 +1,74 @@
+<html xmlns:th="http://www.thymeleaf.org"></html>
+<head th:replace="~{common/common :: meta_header('Register management',~{::link},~{::script})}">
+
+    <link rel="stylesheet" th:href="@{/webjars/flatpickr/dist/plugins/monthSelect/style.css}">
+    <link rel="stylesheet" th:href="@{/webjars/flatpickr/dist/flatpickr.min.css}">
+    <script th:src="@{/webjars/flatpickr/dist/flatpickr.min.js}" defer></script>
+    <script th:src="@{/webjars/flatpickr/dist/l10n/ja.js}" defer></script>
+    <script th:src="@{/webjars/flatpickr/dist/plugins/monthSelect/index.js}" defer></script>
+
+</head>
+<body>
+    <div th:replace="~{common/common :: nav}"></div>
+    <div th:replace="~{common/common :: pagetitle}"></div>
+
+    <br><br>
+
+    <form th:action="@{/item_register}" method="post" th:object="${itemForm}">
+
+        <div>
+            <label for="user_id">担当者を選択してください</label><br>
+            <select name="user_id" id="user_id" class="form-select">
+                <option th:each="entry : ${user_list}" 
+                        th:value="${entry.key}" 
+                        th:text="${entry.value}"
+                        th:selected="${entry.key == selected_user_id}">
+                </option>
+            </select>
+        </div>
+
+
+        <div>
+            <label for="subject">科目を入力してください</label><br>
+            <textarea name="subject" id="subject" class="height-large" autocomplete="off" required></textarea>
+        </div>
+
+
+        <div>
+            <label for="link">課題リンクがある場合入力してください</label><br>
+            <textarea name="link" id="link" class="height-medium" autocomplete="off"></textarea>
+        </div>
+
+
+        <div>
+            <label for="status">ステータスを選択してください</label><br>
+            <select name="status" id="status" class="form-select">
+                <option value="0">未着手</option>
+                <option value="1" selected>取り組み中</option>
+                <option value="2">待機</option>
+                <option value="3">レビュー待ち</option>
+                <option value="4">処理待ち</option>
+            </select>
+        </div>
+
+
+        <div>
+            <input type="text" name="completion_schedule" id="completion_schedule" class="fl-datepicker" >
+        </div>
+        
+        <button type="submit">Addition</button>
+    </form>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', function () {
+          flatpickr('.fl-datepicker', {
+            locale: 'ja',
+            altFormat: 'Y年m月d日',
+            altInput: true,
+            dateFormat: 'Y-m-d',
+            defaultDate: new Date(new Date().setDate(new Date().getDate() + 7)) // 一週間後に設定
+          });
+        });
+    </script>
+</body>
+</html>

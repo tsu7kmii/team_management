@@ -1,0 +1,96 @@
+<html xmlns:th="http://www.thymeleaf.org"></html>
+<head th:replace="~{common/common :: meta_header('Edit management',~{::link},~{::script})}">
+
+    <link rel="stylesheet" th:href="@{/webjars/flatpickr/dist/plugins/monthSelect/style.css}">
+    <link rel="stylesheet" th:href="@{/webjars/flatpickr/dist/flatpickr.min.css}">
+    <script th:src="@{/webjars/flatpickr/dist/flatpickr.min.js}" defer></script>
+    <script th:src="@{/webjars/flatpickr/dist/l10n/ja.js}" defer></script>
+    <script th:src="@{/webjars/flatpickr/dist/plugins/monthSelect/index.js}" defer></script>
+
+</head>
+
+<body>
+    <nav class="navbar bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" th:href="@{'/view'}"> <- Return without changes</a>
+        </div>
+    </nav>
+
+    <div th:replace="~{common/common :: pagetitle}"></div>
+
+    <br>
+
+    <form th:action="@{/edit_register}" method="post" th:object="${itemForm}">
+
+        <div>
+            <label for="user_id">担当者を選択してください</label><br>
+            <select name="user_id" id="user_id" class="form-select">
+                <option th:each="entry : ${user_list}" 
+                        th:value="${entry.key}" 
+                        th:text="${entry.value}"
+                        th:selected="${entry.key == management_data.user_id}">
+                </option>
+            </select>
+        </div>
+
+
+        <div>
+            <label for="subject">科目を入力してください</label><br>
+            <textarea name="subject" id="subject" class="height-large" th:text="${management_data.subject}" autocomplete="off" required></textarea>
+        </div>
+
+
+        <div>
+            <label for="link">課題リンクがある場合入力してください</label><br>
+            <textarea name="link" id="link" class="height-medium" th:text="${management_data.link}" autocomplete="off"></textarea>
+        </div>
+
+
+        <div>
+            <label for="status">ステータスを選択してください</label><br>
+            <select name="status" id="status" class="form-select">
+                <option value="0" th:selected="${management_data.status == 0}">未着手</option>
+                <option value="1" th:selected="${management_data.status == 1}">取り組み中</option>
+                <option value="2" th:selected="${management_data.status == 2}">待機</option>
+                <option value="3" th:selected="${management_data.status == 3}">レビュー待ち</option>
+                <option value="4" th:selected="${management_data.status == 4}">処理待ち</option>
+                <option value="5" th:selected="${management_data.status == 5}" disabled selected>完了</option>
+            </select>
+        </div>
+
+
+        <div>
+            <input type="text" name="completion_schedule" id="completion_schedule" th:value="${management_data.completion_schedule}" class="fl-datepicker" >
+        </div>
+
+        <input type="hidden" name="management_id" th:value="${management_data.management_id}">
+        
+        <button type="submit">Changes</button>
+    </form>
+
+    <br>
+
+    <div>
+        <form th:action="@{/management/complate/{id}(id=${management_data.management_id})}" method="get">
+            <label for="message">完了する</label>
+            <button type="submit">Complate</button>
+        </form>
+    </div>
+
+    <br><br>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', function () {
+          flatpickr('.fl-datepicker', {
+            locale: 'ja',
+            altFormat: 'Y年m月d日',
+            altInput: true,
+            dateFormat: 'Y-m-d'
+          });
+        });
+    </script>
+
+
+
+</body>
+</html>

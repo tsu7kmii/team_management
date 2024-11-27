@@ -1,0 +1,42 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<!-- 共通にしたいheadをfragment化 -->
+<head th:fragment="meta_header(title,links,scripts)">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <!-- 共通で読み込むCSS/JS -->
+     <link rel="stylesheet" href="/css/style.css">
+
+    <!-- Bootstrap(css) -->
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+    <!-- Bootstrap(javascript) -->
+    <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}" defer></script>
+
+    <!-- jQuery -->
+    <script th:src="@{/webjars/jquery/jquery.min.js}" defer></script>
+
+
+    <!-- タイトルのフォーマット -->
+    <title th:text="${title}+' | management app'">各ページタイトル | management app</title>
+
+    <!-- 各View固有で読み込むもの -->
+    <th:block th:replace="${links} ?: _" />
+    <th:block th:replace="${scripts} ?: _" />
+</head>
+<body>
+    <!-- body内で共通化したい部品をfragment化 -->
+    <header th:fragment="nav">
+        <nav class="navbar bg-body-tertiary">
+            <div class="container-fluid">
+                <a class="navbar-brand" th:href="@{'/'}"> <- Return Top</a>
+            </div>
+        </nav>
+    </header>
+
+    <header th:fragment="pagetitle">
+        <h1 class="display-2">
+            <span style="color: red;">T</span>eam <span style="color: red;">M</span>anagement <span style="color: red;">A</span>pp
+        </h1>
+    </header>
+</body>
+</html>

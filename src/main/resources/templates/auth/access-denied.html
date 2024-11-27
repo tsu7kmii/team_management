@@ -1,0 +1,27 @@
+<html xmlns:th="http://www.thymeleaf.org"></html>
+<head th:replace="~{common/common :: meta_header('ACCESS DENIED',~{::link},~{::script})}"></head>
+
+<body>
+	<div th:replace="~{common/common :: pagetitle}"></div>
+	<div class="front-mount">
+		<h1>権限エラー</h1>
+		<p>このページへのアクセス権限はありません。</p>
+
+		<nav class="navbar bg-body-tertiary">
+			<div class="container-fluid">
+			  <a class="navbar-brand" th:href="@{/}"> <- Return</a>
+			</div>
+		</nav>
+
+		<br><br>
+
+		<nav class="navbar bg-body-tertiary">
+			<div class="container-fluid">
+			  <a class="navbar-brand" th:href="@{/logout}"> <- Logout</a>
+			</div>
+		</nav>
+
+	</div>
+	
+</body>
+</html>

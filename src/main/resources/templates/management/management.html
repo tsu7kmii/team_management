@@ -1,0 +1,219 @@
+<html xmlns:th="http://www.thymeleaf.org"></html>
+<head th:replace="~{common/common :: meta_header('management',~{::link},~{::script})}">
+
+</head>
+<body>
+
+    <div th:replace="~{common/common :: nav}"></div>
+    <div th:replace="~{common/common :: pagetitle}"></div>
+
+    <br>
+
+    <div th:if="${incomplate_list.size()} == 0">
+        <h3>  :  現在進行中の内容はありません</h3>
+
+        <nav class="navbar bg-body-tertiary">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/register_form"> - Register</a>
+            </div>
+        </nav>
+    </div>
+
+    <div th:if="${incomplate_list.size()} > 0" class="front-mount">
+
+        <h3> - 現在進行中</h3>
+
+        <nav class="navbar bg-body-tertiary">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/register_form"> - Register</a>
+            </div>
+        </nav>
+
+        <br>
+        
+        <!-- テーブルにボーダーを入れる場合はクラスに追加:table-bordered -->
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th class="th-eight">作成日</th>
+                    <th class="th-ten">担当者</th>
+                    <th class="th-thirty">科目</th>
+                    <th class="th-twenty">課題Link</th>
+                    <th class="th-ten">ステータス</th>
+                    <th class="th-eight">更新日</th>
+                    <th class="th-eight">完了予定日</th>
+                    <th class="th-four">操作</th>
+                </tr>
+            </thead>
+            <tbody class="table-group-divider">
+                <tr th:each="incomplate : ${incomplate_list}">
+
+                    <!-- 作成日 -->
+                    <td th:text="${#dates.format(T(java.util.Date).from(incomplate.create_at.atZone(T(java.time.ZoneId).systemDefault()).toInstant()), 'MM/dd')}"></td>
+                    
+                    <!-- 担当者 -->
+                    <td th:text="${user_list.containsKey(incomplate.user_id) ? user_list[incomplate.user_id] : 'deleteduser'}"></td>
+                    
+                    <!-- 科目 -->
+                    <td th:text="${incomplate.subject}"></td>
+
+                    <!-- 課題Link -->
+                    <td th:text="${incomplate.link}"></td>
+
+                    <!-- ステータス -->
+                    <div th:switch="${incomplate.status}">
+
+                        <div th:case="0">
+                            <td>未着手</td>
+                        </div>
+
+                        <div th:case="1">
+                            <td>取り組み中</td>
+                        </div>
+
+                        <div th:case="2">
+                            <td>待機</td>
+                        </div>
+
+                        <div th:case="3">
+                            <td>レビュー待ち</td>
+                        </div>
+
+                        <div th:case="4">
+                            <td>処理待ち</td>
+                        </div>
+
+                        <div th:case="5">
+                            <td>完了</td>
+                        </div>
+                    </div>
+
+                    <!-- 更新日 -->
+                    <div th:if="${incomplate.update_at} == null">
+                        <td class="center-date"> - </td>
+                    </div>
+                    <div th:if="${incomplate.update_at} != null">
+                        <td th:text="${#dates.format(T(java.util.Date).from(incomplate.update_at.atZone(T(java.time.ZoneId).systemDefault()).toInstant()), 'MM/dd')}"></td>
+                    </div>
+
+                    <!-- 完了予定日 -->
+                    <div>
+                        <td th:text="${#dates.format(incomplate.completion_schedule, 'MM/dd')}"></td>
+                    </div>
+
+                    <!-- 詳細ページ遷移 -->
+                    <div>
+                        <td class="button-td">
+                            <form th:action="@{/view/edit/{id}(id=${incomplate.management_id})}" method="get" class="custom-form-reset center-form">
+                                <button type="submit" class="btn btn-outline-primary">Edit</button>
+                            </form>
+                        </td>
+                    </div>
+  
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <br><br><br>
+    
+    <div th:if="${complate_list.size()} == 0">
+        <div class="front-mount">
+        
+            <h3>  :  完了済の内容はありません</h3>
+
+            <nav class="navbar bg-body-tertiary">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="/view/history"> - History</a>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    <div th:if="${complate_list.size()} > 0" class="front-mount">
+
+        <h3> - 完了済</h3>
+
+        <nav class="navbar bg-body-tertiary">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/view/history"> - History</a>
+            </div>
+        </nav>
+
+        <br>
+
+        <table class="table table-striped"> 
+            <thead>
+                <tr>
+                    <th class="th-ten">作成日</th>
+                    <th class="th-ten">担当者</th>
+                    <th class="th-thirty">科目</th>
+                    <th class="th-twenty">課題Link</th>
+                    <th class="th-ten">ステータス</th>
+                    <th class="th-eight">更新日</th>
+                    <th class="th-ten">完了日</th>
+                </tr>
+            </thead>
+            <tbody class="table-group-divider">
+                <tr th:each="complate : ${complate_list}">
+
+                    <!-- 作成日 -->
+                    <td th:text="${#dates.format(T(java.util.Date).from(complate.create_at.atZone(T(java.time.ZoneId).systemDefault()).toInstant()), 'YYYY/MM/dd')}"></td>
+                    
+                    <!-- 担当者 -->
+                    <td th:text="${user_list.containsKey(complate.user_id) ? user_list[complate.user_id] : 'deleted-user'}"></td>
+                    
+                    <!-- 科目 -->
+                    <td th:text="${complate.subject}"></td>
+
+                    <!-- 課題Link -->
+                    <td th:text="${complate.link}"></td>
+
+                    <!-- ステータス -->
+                    <div th:switch="${complate.status}">
+
+                        <div th:case="0">
+                            <td>未着手</td>
+                        </div>
+
+                        <div th:case="1">
+                            <td>取り組み中</td>
+                        </div>
+
+                        <div th:case="2">
+                            <td>待機</td>
+                        </div>
+
+                        <div th:case="3">
+                            <td>レビュー待ち</td>
+                        </div>
+
+                        <div th:case="4">
+                            <td>処理待ち</td>
+                        </div>
+
+                        <div th:case="5">
+                            <td>完了</td>
+                        </div>
+                    </div>
+
+                    <!-- 更新日 -->
+                    <div th:if="${complate.update_at} == null">
+                        <td class="center-date"> - </td>
+                    </div>
+                    <div th:if="${complate.update_at} != null">
+                        <td th:text="${#dates.format(T(java.util.Date).from(complate.update_at.atZone(T(java.time.ZoneId).systemDefault()).toInstant()), 'MM/dd')}"></td>
+                    </div>
+
+                    <!-- 完了日 -->
+                    <td th:text="${#dates.format(T(java.util.Date).from(complate.delete_at.atZone(T(java.time.ZoneId).systemDefault()).toInstant()), 'YYYY/MM/dd')}"></td>
+
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <br><br><br>
+
+</body>
+</html>

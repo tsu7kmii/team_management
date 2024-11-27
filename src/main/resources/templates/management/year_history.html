@@ -1,0 +1,111 @@
+<html xmlns:th="http://www.thymeleaf.org"></html>
+<head th:replace="~{common/common :: meta_header('Top page',~{::link},~{::script})}">
+
+</head>
+<body>
+    <nav class="navbar bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" th:href="@{'/view/history'}"> <- Return History</a>
+        </div>
+    </nav>
+    <div th:replace="~{common/common :: pagetitle}"></div>
+
+    <br>
+
+    <div class="front-mount">
+
+        <br>
+    
+        <div th:if="${history_data.size()} == 0">
+            <h3>  :  完了済の内容はありません</h3>
+
+            <nav class="navbar bg-body-tertiary">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="/view/history"> - History</a>
+                </div>
+            </nav>
+        </div>
+
+        <div th:if="${history_data.size()} > 0" class="front-mount">
+
+            <h3> - 完了済</h3>
+
+            <br>
+
+            <table class="table table-striped"> 
+                <thead>
+                    <tr>
+                        <th class="th-ten">作成日</th>
+                        <th class="th-ten">担当者</th>
+                        <th class="th-thirty">科目</th>
+                        <th class="th-twenty">課題Link</th>
+                        <th class="th-ten">ステータス</th>
+                        <th class="th-eight">更新日</th>
+                        <th class="th-ten">完了日</th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                    <tr th:each="history : ${history_data}">
+
+                        <!-- 作成日 -->
+                        <td th:text="${#dates.format(T(java.util.Date).from(history.create_at.atZone(T(java.time.ZoneId).systemDefault()).toInstant()), 'YYYY/MM/dd')}"></td>
+                        
+                        <!-- 担当者 -->
+                        <td th:text="${user_list.containsKey(history.user_id) ? user_list[history.user_id] : 'deleted-user'}"></td>
+                        
+                        <!-- 科目 -->
+                        <td th:text="${history.subject}"></td>
+
+                        <!-- 課題Link -->
+                        <td th:text="${history.link}"></td>
+
+                        <!-- ステータス -->
+                        <div th:switch="${history.status}">
+
+                            <div th:case="0">
+                                <td>未着手</td>
+                            </div>
+
+                            <div th:case="1">
+                                <td>取り組み中</td>
+                            </div>
+
+                            <div th:case="2">
+                                <td>待機</td>
+                            </div>
+
+                            <div th:case="3">
+                                <td>レビュー待ち</td>
+                            </div>
+
+                            <div th:case="4">
+                                <td>処理待ち</td>
+                            </div>
+
+                            <div th:case="5">
+                                <td>完了</td>
+                            </div>
+                        </div>
+
+                        <!-- 更新日 -->
+                        <div th:if="${history.update_at} == null">
+                            <td class="center-date"> - </td>
+                        </div>
+                        <div th:if="${history.update_at} != null">
+                            <td th:text="${#dates.format(T(java.util.Date).from(history.update_at.atZone(T(java.time.ZoneId).systemDefault()).toInstant()), 'MM/dd')}"></td>
+                        </div>
+
+                        <!-- 完了日 -->
+                        <td th:text="${#dates.format(T(java.util.Date).from(history.delete_at.atZone(T(java.time.ZoneId).systemDefault()).toInstant()), 'YYYY/MM/dd')}"></td>
+
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <br><br>
+
+
+</body>
+</html>

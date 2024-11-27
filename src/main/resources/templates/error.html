@@ -1,0 +1,47 @@
+<html xmlns:th="http://www.thymeleaf.org"></html>
+<head th:replace="~{common/common :: meta_header('ERROR',~{::link},~{::script})}">
+
+</head>
+<body>
+
+    <div th:replace="~{common/common :: pagetitle}"></div>
+
+  <div class="front-mount">
+
+    <br><br>
+
+    <h3>予期せぬエラーが発生しました。</h3>
+
+    <h4 style="color: crimson;">ERROR CODE: <span th:text="${error_title} ?: ${status} + ' ' + ${error}"></span></h4>
+
+    <br><br><br>
+
+    <div th:if="${error_message}">
+        <h4 th:text="${error_message}"></h4>
+    </div>
+    <div th:unless="${error_message}">
+      <div th:text="'timestamp: ' + ${timestamp}"></div>
+      <div th:text="'status: ' + ${status}"></div>
+      <div th:text="'error: ' + ${error}"></div>
+      <div th:text="'exception: ' + ${exception}"></div>
+      <div th:text="'message: ' + ${message}"></div>
+      <div th:text="'errors: ' + ${errors}"></div>
+      <div th:text="'trace: ' + ${trace}"></div>
+      <div th:text="'path: ' + ${path}"></div>
+    </div>
+
+    <br><br>
+
+    <nav class="navbar bg-body-tertiary">
+      <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{${return_link} ?: '/'}"> <- Return</a>
+      </div>
+    </nav>
+
+  </div>
+
+
+    
+
+</body>
+</html>
