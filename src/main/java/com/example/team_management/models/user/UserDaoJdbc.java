@@ -40,7 +40,7 @@ public class UserDaoJdbc implements UserDao{
     @Override
     public Optional<User> findByEmail(String email) throws DataAccessException {
         // ログイン用
-        List<Map<String,Object>> list = jdbc.queryForList("SELECT * FROM user_table WHERE email = ?", email);
+        List<Map<String,Object>> list = jdbc.queryForList("SELECT * FROM user_table WHERE email = ? AND delete_at IS NULL", email);
 
         // 取得出来たらそのデータ(Listの0)データがなければnull
         if (list.isEmpty()) {
