@@ -78,6 +78,7 @@ public class UserDaoJdbc implements UserDao{
         // ログインアカウント標準選択用
         List<Map<String, Object>> getList = jdbc.queryForList("SELECT user_id FROM user_table WHERE email = ?",email);
 
+        // 初期値をDBのオートインクリメントでとらない数値にしている
         int getId = -1;
 
         for (Map<String, Object> map : getList){
