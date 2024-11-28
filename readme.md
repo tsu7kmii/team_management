@@ -1,4 +1,18 @@
 
+開発環境 : [pom.xml](./pom.xml)にはjava version17となっていますが、実際はjdk22で開発しています。  
+データベースはmysqlを使用し、dockerでホストしています。  
+`localhsot:4040`でphpmyadminに接続でき、[サンプルデータ入りのsql](./SampleData/team_management.sql)をインポートすることで、データ入りで確認することが出来ます。
+
+id : `sample@a.a`  
+ps : `sample1`  
+サンプルデータを使用する場合、上記の情報で管理者アカウントでログインできます。
+
+フレームワークにspringを使用しています。
+
+簡易ではありますが、基本設計書(?)を書きました。[こちら](./BasicDesign.md)より確認可能です。
+
+## 
+
 ### server run
 `mvn spring-boot:run`
 
