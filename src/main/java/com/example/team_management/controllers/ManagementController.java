@@ -54,10 +54,10 @@ public class ManagementController {
     }
 
     /**
-     * 進行中・当年完了済み進捗表示画面
+     * 進行中・当年完了済み進捗画面表示
      * 
      * @param model モデル
-     * @return 進行中・当年完了済み進捗表示画面
+     * @return 進行中・当年完了済み進捗画面
      */
     @RequestMapping("/view")
     public String viewManagementTable(Model model){
@@ -82,7 +82,7 @@ public class ManagementController {
     }
 
     /**
-     * 新規進捗追加登録画面
+     * 新規進捗追加登録画面表示
      * 
      * @param userDetails ユーザーディテール
      * @param model モデル
@@ -144,7 +144,7 @@ public class ManagementController {
     }
 
     /**
-     * 進捗内容編集・完了画面
+     * 進捗内容編集・完了画面表示
      * 
      * @param id 管理ID
      * @param model モデル
@@ -233,10 +233,10 @@ public class ManagementController {
     }
 
     /**
-     * 年別完了済み進捗項目表示画面
+     * 年別完了済み進捗項目画面表示
      * 
      * @param model モデル
-     * @return 年別完了済み進捗項目表示画面
+     * @return 年別完了済み進捗項目画面
      */
     @RequestMapping("/view/history")
     public String viewManagementHistoryLog(Model model){
@@ -254,11 +254,11 @@ public class ManagementController {
     }
 
     /**
-     * 年別完了済み進捗表示画面
+     * 年別完了済み進捗画面表示
      * 
      * @param year 年
      * @param model モデル
-     * @return 年別完了済み進捗表示画面
+     * @return 年別完了済み進捗画面
      */
     @RequestMapping(value = "/view/history/{year}", method = RequestMethod.GET)
     public String viewManagementHistory(@PathVariable String year, Model model){
