@@ -13,7 +13,7 @@ import com.example.team_management.models.dao.ManagementDao;
 import com.example.team_management.models.entity.Management;
 
 /**
- * ManagementDaoJdbcクラス
+ * ManagementDaoImplクラス
  * データベース操作を行うクラス
  */
 @Repository("ManagementDaoImpl")

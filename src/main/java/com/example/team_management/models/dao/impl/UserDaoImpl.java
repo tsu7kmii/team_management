@@ -12,7 +12,7 @@ import com.example.team_management.models.dao.UserDao;
 import com.example.team_management.models.entity.User;
 
 /**
- * UserDaoJdbcクラス
+ * UserDaoImplクラス
  * ユーザー情報のデータベース操作を行うクラス
  */
 @Repository("UserDaoImpl")
