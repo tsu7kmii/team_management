@@ -19,6 +19,9 @@ import com.example.team_management.models.entity.Management;
 import com.example.team_management.services.ManagementService;
 import com.example.team_management.services.UserService;
 
+/**
+ * 進捗管理コントローラー
+ */
 @Controller
 public class ManagementController {
 
@@ -38,14 +41,12 @@ public class ManagementController {
     public String viewToppage(Model model){
 
         // ログインユーザーが管理者かチェック
-
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         boolean isAdmin = auth.getAuthorities().stream()
                               .map(GrantedAuthority::getAuthority)
                               .anyMatch(role -> role.equals("ROLE_ADMIN"));
 
-        // 結果を渡す
         model.addAttribute("isAdmin", isAdmin);
 
         return "index";
@@ -63,14 +64,13 @@ public class ManagementController {
         // 現在が何年か取得
         String year = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
 
-        // 一覧表示
+        // 表示データの取得
         List<Management> incomplateList = managementService.getAllIncompleteManagementData();
         List<Management> complateList = managementService.getAllCompletionManagementData(year);
         Map<Integer, String> userMap = userService.getUserNameList();
 
         // delete_atの日付が古い順に並び替え
         complateList.sort(Comparator.comparing(Management::getDelete_at));
-
 
         model.addAttribute("incomplate_list", incomplateList);
         model.addAttribute("complate_list", complateList);
@@ -89,11 +89,12 @@ public class ManagementController {
     @RequestMapping("/register_form")
     public String viewRegisterItem(@AuthenticationPrincipal UserDetails userDetails ,Model model){
 
+        // IDと名前の組み合わせ取得
         Map<Integer, String> userMap = userService.getUserNameList();
 
+        // ログインアカウントのID認証情報取得
         String email = userDetails.getUsername();
         Integer selectedUserId = userService.findIdByEmail(email);
-
 
         model.addAttribute("user_list", userMap);
         model.addAttribute("selected_user_id", selectedUserId);
@@ -154,6 +155,7 @@ public class ManagementController {
             return "error/error";
         }
 
+        // IDと名前の組み合わせ取得
         Map<Integer, String> userMap = userService.getUserNameList();
 
         model.addAttribute("user_list", userMap);
@@ -242,13 +244,12 @@ public class ManagementController {
     @RequestMapping(value = "/view/history/{year}", method = RequestMethod.GET)
     public String viewManagementHistory(@PathVariable String year, Model model){
 
-        // 一覧取得
+        // 表示データの取得
         List<Management> yearComplateList = managementService.getAllCompletionManagementData(year);
         Map<Integer, String> userMap = userService.getUserNameList();
 
         // delete_atの日付が古い順に並び替え
         yearComplateList.sort(Comparator.comparing(Management::getDelete_at));
-
 
         model.addAttribute("history_data", yearComplateList);
         model.addAttribute("user_list", userMap);

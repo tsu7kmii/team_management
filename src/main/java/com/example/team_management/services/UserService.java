@@ -47,7 +47,6 @@ public class UserService {
             throw new Exception(ErrorMessages.UserErros.ALREEADY_USED_EMAIL);
         }
 
-        // 登録処理
         // 登録用インスタンス作成
         User user = new User();
 
@@ -58,7 +57,6 @@ public class UserService {
 
         if (dao.newUserRegister(user) < 1) 
             throw new Exception(ErrorMessages.GlobalErrors.SQL_ERROR);
-        
     }
 
     /**
@@ -119,7 +117,6 @@ public class UserService {
 
         if (dao.changePasswordByEmail(email, createHash(newPassword)) < 1)
             throw new Exception(ErrorMessages.GlobalErrors.SQL_ERROR);
-
     }
 
     /**
@@ -132,7 +129,6 @@ public class UserService {
 
         if (dao.changeNameByEmail(email, newName) < 1)
             throw new Exception(ErrorMessages.GlobalErrors.SQL_ERROR);
-
     }
 
     /**
@@ -153,7 +149,6 @@ public class UserService {
         
         if (dao.changeUserPermissionLevelById(id, level) < 1)
             throw new Exception(ErrorMessages.GlobalErrors.SQL_ERROR);
-
     }
 
     /**
@@ -165,6 +160,5 @@ public class UserService {
         
         if (dao.deleteUserById(id) < 1)
             throw new Exception(ErrorMessages.GlobalErrors.SQL_ERROR);
-
     }
 }

@@ -185,7 +185,6 @@ public class AuthController {
     @RequestMapping("/login")
     public String login(){
 
-        // ログイン
         return "auth/login";
     }
 
@@ -200,7 +199,6 @@ public class AuthController {
     @RequestMapping("/logout")
     public String logout(Authentication authentication, HttpServletRequest request, HttpServletResponse response){
         
-        // ログアウト
         this.logoutHandler.logout(request, response, authentication);
         return "redirect:/login?logout";
     }
@@ -214,7 +212,6 @@ public class AuthController {
     @RequestMapping("/sign_up")
     public String viewRegister(SignupRequest signupRequest){
 
-        // アカウント作成
         return "auth/sign_up";
     }
 
@@ -227,7 +224,6 @@ public class AuthController {
     @RequestMapping("/change_password")
     public String viewChangePassword(PasswordChangeRequest passwordChangeRequest){
 
-        // パスワード変更
         return "auth/change_password";
     }
 
@@ -240,7 +236,6 @@ public class AuthController {
     @RequestMapping("/change_name")
     public String viewChangeName(NameChangeRequest nameChangeRequest){
 
-        // パスワード変更
         return "auth/change_name";
     }
 
