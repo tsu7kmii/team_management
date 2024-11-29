@@ -25,5 +25,16 @@ public class CustomErrorController implements ErrorController{
         }
         return "error/error"; // デフォルトのエラーページ
     }
+
+    /**
+     * アクセス拒否時の処理を行うメソッド
+     * @return アクセス拒否ページ
+     */
+    @RequestMapping("/access-denied")
+    public String accessDenied() {
+
+        // 権限エラー
+		return "error/access-denied";
+	}
     
 }
