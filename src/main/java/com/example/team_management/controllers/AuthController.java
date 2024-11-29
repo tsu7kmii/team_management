@@ -50,31 +50,17 @@ public class AuthController {
             // バリデーションチェック
             return "auth/sign_up";
         }
-
-        if (userService.isEmailAlreadyRegistered(signupRequest.getEmail())) {
-            // 既にemailが使用済の場合
-            return "redirect:/error/used_email_error?param=" + signupRequest.getEmail();
-        }
-
-        // 登録処理
-        // 登録用インスタンス作成
-        User user = new User();
-
-        user.setUser_name(signupRequest.getName());
-        user.setPassword(userService.createHash(signupRequest.getPassword()));
-        user.setEmail(signupRequest.getEmail());
-        user.setPermission_level(2);
         
         // 実行
-        boolean isRegisterResult = userService.newUserRegister(user);
+        try {
+            userService.newUserRegister(signupRequest);
+        } catch (Exception e) {
+            // エラーハンドリング
+            model.addAttribute("error_message", e.getMessage());
+            return "error/error";
+        }
 
-        if (isRegisterResult == true){
-            // 成功
-            return "redirect:/";
-        } else {
-            // 失敗
-            return "redirect:/error/create_account_error";
-        }                  
+        return "redirect:/";            
     }
 
     /**
@@ -88,28 +74,30 @@ public class AuthController {
     @RequestMapping(value = "/user_change_password", method=RequestMethod.POST)
     public String changePasswordRegister(@Validated PasswordChangeRequest passwordChangeRequest,
                                     BindingResult bindingResult,
-                                    @AuthenticationPrincipal UserDetails userDetails){
+                                    @AuthenticationPrincipal UserDetails userDetails,
+                                    Model model){
         
         
         if (bindingResult.hasErrors()) {
+            if (!passwordChangeRequest.isPasswordValid()){
+                model.addAttribute("passwordMismatchError", "パスワードが一致しません");
+            }
+
             // バリデーションチェック
             return "auth/change_password";
         }
+
+        // 実行
+        try {
+            userService.changePasswordByEmail(userDetails.getUsername(),passwordChangeRequest.getNewPassword());
+        } catch (Exception e) {
+            // エラーハンドリング
+            model.addAttribute("error_message", e.getMessage());
+            return "error/error";
+        }
+
+        return "redirect:/logout";
         
-        if (!passwordChangeRequest.getNewPassword().equals(passwordChangeRequest.getAgainNewPassword())) {
-            // 入力された2種類のパスワードが一致しない場合
-            return "redirect:/error/not_equal_password_error";
-        }
-
-        // パスワード変更
-        boolean isChangePasswordResult = userService.changePasswordByEmail(userDetails.getUsername(),userService.createHash(passwordChangeRequest.getNewPassword()));
-
-        if (isChangePasswordResult){
-            // 成功時ログアウト
-            return "redirect:/logout";
-        } else {
-            return "redirect:/error/not_change_password_error";
-        }
     }
 
     /**
@@ -123,23 +111,25 @@ public class AuthController {
     @RequestMapping(value = "/user_change_name", method=RequestMethod.POST)
     public String changeNameRegister(@Validated NameChangeRequest nameChangeRequest,
                                     BindingResult bindingResult,
-                                    @AuthenticationPrincipal UserDetails userDetails){
+                                    @AuthenticationPrincipal UserDetails userDetails,
+                                    Model model){
         
         
         if (bindingResult.hasErrors()) {
             // バリデーションチェック
             return "auth/change_name";
         }
-        
-        // 名前変更
-        boolean isChangeNameResult = userService.changeNameByEmail(userDetails.getUsername(),nameChangeRequest.getNewName());
 
-        if (isChangeNameResult){
-            // 成功時ログアウト
-            return "redirect:/";
-        } else {
-            return "redirect:/error/not_change_name_error";
+        // 実行
+        try {
+            userService.changeNameByEmail(userDetails.getUsername(),nameChangeRequest.getNewName());
+        } catch (Exception e) {
+            // エラーハンドリング
+            model.addAttribute("error_message", e.getMessage());
+            return "error/error";
         }
+
+        return "redirect:/";
     }
 
     /**
@@ -151,17 +141,19 @@ public class AuthController {
      */
     @RequestMapping("/admin/change_role")
     public String changeRoleRegister(@RequestParam("user_id") Integer userId,
-                                        @RequestParam("request_role") Integer requestRole){
+                                        @RequestParam("request_role") Integer requestRole,
+                                        Model model){
         
-        // 権限変更
-        boolean isChangeRoleResult = userService.changeUserPermissionLevelById(userId, requestRole); 
-        
-        if (isChangeRoleResult){
-            // 成功
-            return "redirect:/admin/user_list";
-        } else {
-            return "redirect:/error/not_change_role_error";
+        // 実行
+        try {
+            userService.changeUserPermissionLevelById(userId, requestRole); 
+        } catch (Exception e) {
+            // エラーハンドリング
+            model.addAttribute("error_message", e.getMessage());
+            return "error/error";
         }
+
+        return "redirect:/admin/user_list";
     }
 
     /**
@@ -171,17 +163,18 @@ public class AuthController {
      * @return リダイレクト先
      */
     @RequestMapping("/admin/delete_user")
-    public String deleteUserRegister(@RequestParam("user_id") Integer userId){
+    public String deleteUserRegister(@RequestParam("user_id") Integer userId, Model model){
 
-        // ユーザー削除
-        boolean isDeleteUserResult = userService.deleteUserById(userId);
-
-        if (isDeleteUserResult){
-            // 成功
-            return "redirect:/admin/user_list";
-        } else {
-            return "redirect:/error/not_delete_user_error";
+        // 実行
+        try {
+            userService.deleteUserById(userId);
+        } catch (Exception e) {
+            // エラーハンドリング
+            model.addAttribute("error_message", e.getMessage());
+            return "error/error";
         }
+
+        return "redirect:/admin/user_list";
     }
     
     /**
