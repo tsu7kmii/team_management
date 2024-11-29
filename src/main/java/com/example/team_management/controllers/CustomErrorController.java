@@ -8,10 +8,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.http.HttpServletRequest;
 
-
+/**
+ * エラーコントローラー
+ */
 @Controller
-public class CustomErrorController implements ErrorController{
-    
+public class CustomErrorController implements ErrorController {
+
+    /**
+     * エラーページを処理するメソッド
+     * @param request HTTPリクエスト
+     * @return エラーページのパス
+     */
     @RequestMapping("/error")
      public String handleError(HttpServletRequest request) {
         Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
@@ -20,10 +27,10 @@ public class CustomErrorController implements ErrorController{
             int statusCode = Integer.parseInt(status.toString());
 
             if (statusCode == HttpStatus.NOT_FOUND.value()) {
-                return "error/404"; // 404.htmlテンプレートを返す
+                return "error/404"; 
             }
         }
-        return "error/error"; // デフォルトのエラーページ
+        return "error/error";
     }
 
     /**
