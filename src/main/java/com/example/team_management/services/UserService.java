@@ -37,8 +37,8 @@ public class UserService {
 
     /**
      * 新規登録
-     * @param user ユーザー情報
-     * @return 成功した場合はtrue、失敗した場合はfalse
+     * @param signupRequest ユーザー情報
+     * @throws Exception 例外
      */
     public void newUserRegister(SignupRequest signupRequest) throws Exception{
 
@@ -55,7 +55,6 @@ public class UserService {
         user.setPassword(createHash(signupRequest.getPassword()));
         user.setEmail(signupRequest.getEmail());
         user.setPermission_level(2);
-
 
         if (dao.newUserRegister(user) < 1) 
             throw new Exception(ErrorMessages.GlobalErrors.SQL_ERROR);
@@ -114,7 +113,7 @@ public class UserService {
      * パスワード変更
      * @param email メールアドレス
      * @param newPassword 新しいパスワード
-     * @return 成功した場合はtrue、失敗した場合はfalse
+     * @throws Exception 例外
      */
     public void changePasswordByEmail(String email, String newPassword) throws Exception{
 
@@ -127,7 +126,7 @@ public class UserService {
      * 名前変更
      * @param email メールアドレス
      * @param newName 新しい名前
-     * @return 成功した場合はtrue、失敗した場合はfalse
+     * @throws Exception 例外
      */
     public void changeNameByEmail(String email, String newName) throws Exception{
 
@@ -148,7 +147,7 @@ public class UserService {
      * ユーザー権限変更
      * @param id ユーザーID
      * @param level 権限レベル
-     * @return 成功した場合はtrue、失敗した場合はfalse
+     * @throws Exception 例外
      */
     public void changeUserPermissionLevelById(Integer id, Integer level) throws Exception{
         
@@ -160,7 +159,7 @@ public class UserService {
     /**
      * ユーザー削除
      * @param id ユーザーID
-     * @return 成功した場合はtrue、失敗した場合はfalse
+     * @throws Exception 例外
      */
     public void deleteUserById(Integer id) throws Exception{
         
