@@ -12,6 +12,7 @@ import com.example.team_management.models.user.UserDao;
 
 @Component
 @Transactional
+// IUserDetailsService(I = interface)
 public class UserDetailsServiceImpl implements UserDetailsService{
     
     @Autowired
