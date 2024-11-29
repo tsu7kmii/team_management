@@ -1,7 +1,7 @@
 
 # データベース設計
 ## ER図
-![er](./img/image_er.png)
+![er](/img/image_er.png)
 
 ## テーブル定義
 | システム名 | Team Management | 作成者 | あなたの名前 |
