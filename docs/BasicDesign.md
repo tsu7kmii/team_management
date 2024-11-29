@@ -60,7 +60,7 @@ MVC方式
 | カテゴリ       | 項目                              | 詳細                                    |
 |----------------|-----------------------------------|-----------------------------------------|
 | 開発環境       | ビルドツール                      | Apache Maven                            |
-|                | Java Version                      | 17                                      |
+|                | Java Version                      | 17(22)                                      |
 | フレームワーク | Spring Boot                       | Version 3.4.0                           |
 |                | Spring Boot Starter Web           | Webアプリケーション開発用               |
 |                | Spring Boot Starter Tomcat        | Tomcatサーバー                          |
