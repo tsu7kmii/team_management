@@ -1,10 +1,10 @@
-package com.example.team_management.models.user;
+package com.example.team_management.requests;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-public class PasswordChangeValidation {
+public class PasswordChangeRequest {
 
     @NotBlank
     @Size(min = 6, max = 20, message = "6文字以上,20文字以下")

@@ -1,9 +1,9 @@
-package com.example.team_management.models.user;
+package com.example.team_management.requests;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-public class NameChangeValidation {
+public class NameChangeRequest {
     
     @NotBlank
     @Size(min = 3, max = 10, message = "3文字以上,10文字以下")
