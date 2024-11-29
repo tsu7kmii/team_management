@@ -12,7 +12,6 @@ import com.example.team_management.models.entity.User;
 
 @Component
 @Transactional
-// IUserDetailsService(I = interface)
 public class UserDetailsServiceImpl implements UserDetailsService{
     
     @Autowired
