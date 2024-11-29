@@ -1,1 +1,31 @@
-<p>404</p>
+<html xmlns:th="http://www.thymeleaf.org"></html>
+<head th:replace="~{common/common :: meta_header('ERROR',~{::link},~{::script})}">
+
+</head>
+<body>
+
+    <div th:replace="~{common/common :: pagetitle}"></div>
+
+  <div class="front-mount">
+
+    <br><br>
+
+    <h1 style="color: red;">404 Not Found</h1>
+    <h3>このページは存在しません</h3>
+
+    <br><br><br>
+
+
+    <nav class="navbar bg-body-tertiary">
+      <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/}"> <- Return</a>
+      </div>
+    </nav>
+
+  </div>
+
+
+    
+
+</body>
+</html>
