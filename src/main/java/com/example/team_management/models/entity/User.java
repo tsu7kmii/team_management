@@ -1,4 +1,4 @@
-package com.example.team_management.models.user;
+package com.example.team_management.models.entity;
 
 import java.time.LocalDateTime;
 

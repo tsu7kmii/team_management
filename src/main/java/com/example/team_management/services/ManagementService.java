@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.team_management.models.management.Management;
-import com.example.team_management.models.management.ManagementDao;
+import com.example.team_management.models.dao.ManagementDao;
+import com.example.team_management.models.entity.Management;
 
 /**
  * 管理サービスクラス
@@ -20,7 +20,7 @@ import com.example.team_management.models.management.ManagementDao;
 public class ManagementService {
 
     @Autowired
-    @Qualifier("ManagementDaoJdbc")
+    @Qualifier("ManagementDaoImpl")
     ManagementDao dao;
 
     /**

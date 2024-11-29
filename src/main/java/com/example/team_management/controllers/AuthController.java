@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.example.team_management.models.user.NameChangeValidation;
-import com.example.team_management.models.user.PasswordChangeValidation;
-import com.example.team_management.models.user.SignupValidation;
-import com.example.team_management.models.user.User;
+import com.example.team_management.models.entity.User;
+import com.example.team_management.requests.NameChangeRequest;
+import com.example.team_management.requests.PasswordChangeRequest;
+import com.example.team_management.requests.SignupRequest;
 import com.example.team_management.services.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -38,31 +38,31 @@ public class AuthController {
     /**
      * 新規ユーザー登録処理
      * 
-     * @param signupValidation サインアップバリデーション
+     * @param signupRequest サインアップバリデーション
      * @param bindingResult バインディング結果
      * @param model モデル
      * @return リダイレクト先
      */
     @RequestMapping(value = "/user_register", method = RequestMethod.POST)
-    public String newUserRegister(@Validated SignupValidation signupValidation, BindingResult bindingResult, Model model){
+    public String newUserRegister(@Validated SignupRequest signupRequest, BindingResult bindingResult, Model model){
 
         if (bindingResult.hasErrors()){
             // バリデーションチェック
             return "auth/sign_up";
         }
 
-        if (userService.isEmailAlreadyRegistered(signupValidation.getEmail())) {
+        if (userService.isEmailAlreadyRegistered(signupRequest.getEmail())) {
             // 既にemailが使用済の場合
-            return "redirect:/error/used_email_error?param=" + signupValidation.getEmail();
+            return "redirect:/error/used_email_error?param=" + signupRequest.getEmail();
         }
 
         // 登録処理
         // 登録用インスタンス作成
         User user = new User();
 
-        user.setUser_name(signupValidation.getName());
-        user.setPassword(userService.createHash(signupValidation.getPassword()));
-        user.setEmail(signupValidation.getEmail());
+        user.setUser_name(signupRequest.getName());
+        user.setPassword(userService.createHash(signupRequest.getPassword()));
+        user.setEmail(signupRequest.getEmail());
         user.setPermission_level(2);
         
         // 実行
@@ -80,13 +80,13 @@ public class AuthController {
     /**
      * パスワード変更処理
      * 
-     * @param passwordChangeValidation パスワード変更バリデーション
+     * @param passwordChangeRequest パスワード変更バリデーション
      * @param bindingResult バインディング結果
      * @param userDetails ユーザーディテール
      * @return リダイレクト先
      */
     @RequestMapping(value = "/user_change_password", method=RequestMethod.POST)
-    public String changePasswordRegister(@Validated PasswordChangeValidation passwordChangeValidation,
+    public String changePasswordRegister(@Validated PasswordChangeRequest passwordChangeRequest,
                                     BindingResult bindingResult,
                                     @AuthenticationPrincipal UserDetails userDetails){
         
@@ -96,13 +96,13 @@ public class AuthController {
             return "auth/change_password";
         }
         
-        if (!passwordChangeValidation.getNewPassword().equals(passwordChangeValidation.getAgainNewPassword())) {
+        if (!passwordChangeRequest.getNewPassword().equals(passwordChangeRequest.getAgainNewPassword())) {
             // 入力された2種類のパスワードが一致しない場合
             return "redirect:/error/not_equal_password_error";
         }
 
         // パスワード変更
-        boolean isChangePasswordResult = userService.changePasswordByEmail(userDetails.getUsername(),userService.createHash(passwordChangeValidation.getNewPassword()));
+        boolean isChangePasswordResult = userService.changePasswordByEmail(userDetails.getUsername(),userService.createHash(passwordChangeRequest.getNewPassword()));
 
         if (isChangePasswordResult){
             // 成功時ログアウト
@@ -115,13 +115,13 @@ public class AuthController {
     /**
      * 名前変更処理
      * 
-     * @param nameChangeValidation 名前変更バリデーション
+     * @param nameChangeRequest 名前変更バリデーション
      * @param bindingResult バインディング結果
      * @param userDetails ユーザーディテール
      * @return リダイレクト先
      */
     @RequestMapping(value = "/user_change_name", method=RequestMethod.POST)
-    public String changeNameRegister(@Validated NameChangeValidation nameChangeValidation,
+    public String changeNameRegister(@Validated NameChangeRequest nameChangeRequest,
                                     BindingResult bindingResult,
                                     @AuthenticationPrincipal UserDetails userDetails){
         
@@ -132,7 +132,7 @@ public class AuthController {
         }
         
         // 名前変更
-        boolean isChangeNameResult = userService.changeNameByEmail(userDetails.getUsername(),nameChangeValidation.getNewName());
+        boolean isChangeNameResult = userService.changeNameByEmail(userDetails.getUsername(),nameChangeRequest.getNewName());
 
         if (isChangeNameResult){
             // 成功時ログアウト
@@ -215,11 +215,11 @@ public class AuthController {
     /**
      * 新規アカウント登録画面表示
      * 
-     * @param signupValidation アカウント作成バリデーション
+     * @param signupRequest アカウント作成バリデーション
      * @return 新規アカウント登録画面
      */
     @RequestMapping("/sign_up")
-    public String viewRegister(SignupValidation signupValidation){
+    public String viewRegister(SignupRequest signupRequest){
 
         // アカウント作成
         return "auth/sign_up";
@@ -228,11 +228,11 @@ public class AuthController {
     /**
      * パスワード変更画面表示
      * 
-     * @param passwordChangeValidation パスワード変更バリデーション
+     * @param passwordChangeRequest パスワード変更バリデーション
      * @return パスワード変更画面
      */
     @RequestMapping("/change_password")
-    public String viewChangePassword(PasswordChangeValidation passwordChangeValidation){
+    public String viewChangePassword(PasswordChangeRequest passwordChangeRequest){
 
         // パスワード変更
         return "auth/change_password";
@@ -241,11 +241,11 @@ public class AuthController {
     /**
      * 名前変更画面表示
      * 
-     * @param nameChangeValidation 名前変更バリデーション
+     * @param nameChangeRequest 名前変更バリデーション
      * @return 名前変更画面
      */
     @RequestMapping("/change_name")
-    public String viewChangeName(NameChangeValidation nameChangeValidation){
+    public String viewChangeName(NameChangeRequest nameChangeRequest){
 
         // パスワード変更
         return "auth/change_name";

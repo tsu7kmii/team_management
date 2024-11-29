@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.ui.Model;
 
-import com.example.team_management.models.management.Management;
+import com.example.team_management.models.entity.Management;
 import com.example.team_management.services.ManagementService;
 import com.example.team_management.services.UserService;
 

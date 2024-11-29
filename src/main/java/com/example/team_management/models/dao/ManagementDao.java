@@ -1,8 +1,10 @@
-package com.example.team_management.models.management;
+package com.example.team_management.models.dao;
 
 import java.util.List;
 
 import org.springframework.dao.DataAccessException;
+
+import com.example.team_management.models.entity.Management;
 
 public interface ManagementDao {
 

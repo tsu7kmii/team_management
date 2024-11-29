@@ -11,15 +11,15 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.team_management.models.user.User;
-import com.example.team_management.models.user.UserDao;
+import com.example.team_management.models.dao.UserDao;
+import com.example.team_management.models.entity.User;
 
 @Transactional // トランザクション
 @Service
 public class UserService {
 
     @Autowired
-    @Qualifier("UserDaoJdbc")
+    @Qualifier("UserDaoImpl")
     UserDao dao;
 
     @Autowired
