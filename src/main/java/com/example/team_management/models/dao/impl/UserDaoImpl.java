@@ -1,4 +1,4 @@
-package com.example.team_management.models.user;
+package com.example.team_management.models.dao.impl;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -8,12 +8,15 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.example.team_management.models.dao.UserDao;
+import com.example.team_management.models.entity.User;
+
 /**
  * UserDaoJdbcクラス
  * ユーザー情報のデータベース操作を行うクラス
  */
-@Repository("UserDaoJdbc")
-public class UserDaoJdbc implements UserDao{
+@Repository("UserDaoImpl")
+public class UserDaoImpl implements UserDao{
 
     @Autowired
     JdbcTemplate jdbc;

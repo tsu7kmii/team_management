@@ -11,15 +11,17 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.team_management.models.user.User;
-import com.example.team_management.models.user.UserDao;
+import com.example.team_management.exception.ErrorMessages;
+import com.example.team_management.models.dao.UserDao;
+import com.example.team_management.models.entity.User;
+import com.example.team_management.requests.SignupRequest;
 
 @Transactional // トランザクション
 @Service
 public class UserService {
 
     @Autowired
-    @Qualifier("UserDaoJdbc")
+    @Qualifier("UserDaoImpl")
     UserDao dao;
 
     @Autowired
@@ -35,18 +37,28 @@ public class UserService {
 
     /**
      * 新規登録
-     * @param user ユーザー情報
-     * @return 成功した場合はtrue、失敗した場合はfalse
+     * @param signupRequest ユーザー情報
+     * @throws Exception 例外
      */
-    public boolean newUserRegister(User user){
-        int rowNumber = dao.newUserRegister(user);
+    public void newUserRegister(SignupRequest signupRequest) throws Exception{
 
-        boolean result = false;
-
-        if (rowNumber > 0) {
-            result = true;
+        if (isEmailAlreadyRegistered(signupRequest.getEmail())) {
+            // 既にemailが使用済の場合
+            throw new Exception(ErrorMessages.UserErros.ALREEADY_USED_EMAIL);
         }
-        return result; 
+
+        // 登録処理
+        // 登録用インスタンス作成
+        User user = new User();
+
+        user.setUser_name(signupRequest.getName());
+        user.setPassword(createHash(signupRequest.getPassword()));
+        user.setEmail(signupRequest.getEmail());
+        user.setPermission_level(2);
+
+        if (dao.newUserRegister(user) < 1) 
+            throw new Exception(ErrorMessages.GlobalErrors.SQL_ERROR);
+        
     }
 
     /**
@@ -101,34 +113,26 @@ public class UserService {
      * パスワード変更
      * @param email メールアドレス
      * @param newPassword 新しいパスワード
-     * @return 成功した場合はtrue、失敗した場合はfalse
+     * @throws Exception 例外
      */
-    public boolean changePasswordByEmail(String email, String newPassword){
-        int rowNumber = dao.changePasswordByEmail(email, newPassword);
+    public void changePasswordByEmail(String email, String newPassword) throws Exception{
 
-        boolean result = false;
+        if (dao.changePasswordByEmail(email, createHash(newPassword)) < 1)
+            throw new Exception(ErrorMessages.GlobalErrors.SQL_ERROR);
 
-        if (rowNumber > 0) {
-            result = true;
-        }
-        return result;
     }
 
     /**
      * 名前変更
      * @param email メールアドレス
      * @param newName 新しい名前
-     * @return 成功した場合はtrue、失敗した場合はfalse
+     * @throws Exception 例外
      */
-    public boolean changeNameByEmail(String email, String newName){
-        int rowNumber = dao.changeNameByEmail(email, newName);
+    public void changeNameByEmail(String email, String newName) throws Exception{
 
-        boolean result = false;
+        if (dao.changeNameByEmail(email, newName) < 1)
+            throw new Exception(ErrorMessages.GlobalErrors.SQL_ERROR);
 
-        if (rowNumber > 0) {
-            result = true;
-        }
-        return result;
     }
 
     /**
@@ -143,32 +147,24 @@ public class UserService {
      * ユーザー権限変更
      * @param id ユーザーID
      * @param level 権限レベル
-     * @return 成功した場合はtrue、失敗した場合はfalse
+     * @throws Exception 例外
      */
-    public boolean changeUserPermissionLevelById(Integer id, Integer level){
-        int rowNumber = dao.changeUserPermissionLevelById(id, level);
+    public void changeUserPermissionLevelById(Integer id, Integer level) throws Exception{
+        
+        if (dao.changeUserPermissionLevelById(id, level) < 1)
+            throw new Exception(ErrorMessages.GlobalErrors.SQL_ERROR);
 
-        boolean result = false;
-
-        if (rowNumber > 0) {
-            result = true;
-        }
-        return result;
     }
 
     /**
      * ユーザー削除
      * @param id ユーザーID
-     * @return 成功した場合はtrue、失敗した場合はfalse
+     * @throws Exception 例外
      */
-    public boolean deleteUserById(Integer id){
-        int rowNumber = dao.deleteUserById(id);
+    public void deleteUserById(Integer id) throws Exception{
+        
+        if (dao.deleteUserById(id) < 1)
+            throw new Exception(ErrorMessages.GlobalErrors.SQL_ERROR);
 
-        boolean result = false;
-
-        if (rowNumber > 0) {
-            result = true;
-        }
-        return result;
     }
 }

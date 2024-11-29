@@ -1,7 +1,6 @@
-
-// Start of Selection
 package com.example.team_management.services;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +8,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.team_management.models.management.Management;
-import com.example.team_management.models.management.ManagementDao;
+import com.example.team_management.exception.ErrorMessages;
+import com.example.team_management.models.dao.ManagementDao;
+import com.example.team_management.models.entity.Management;
 
 /**
  * 管理サービスクラス
@@ -20,24 +20,47 @@ import com.example.team_management.models.management.ManagementDao;
 public class ManagementService {
 
     @Autowired
-    @Qualifier("ManagementDaoJdbc")
+    @Qualifier("ManagementDaoImpl")
     ManagementDao dao;
 
     /**
      * データ追加
-     * @param manaegment 進捗データ
-     * @return 成功した場合はtrue、失敗した場合はfalse
+     * @param userId ユーザーID
+     * @param subject 科目
+     * @param link 課題リンク
+     * @param status ステータス
+     * @param comDate 完了予定日
+     * @throws Exception 例外
      */
-    public boolean addManagementData(Management manaegment){
+    public void addManagementData(Integer userId, String subject, String link, Integer status, String comDate) throws Exception{
 
-        int rowNumber = dao.addManagementData(manaegment);
+        // インスタンス作成
+        Management management = new Management();  
+        
+        management.setUser_id(userId);
+        management.setSubject(subject);
+        management.setLink(link);
+        management.setStatus(status);
+        management.setCompletion_schedule(Date.valueOf(comDate));  
 
-        boolean result = false;
+        if (dao.addManagementData(management) < 1)
+            throw new Exception(ErrorMessages.GlobalErrors.SQL_ERROR);
+    }
 
-        if (rowNumber > 0) {
-            result = true;
-        }
-        return result;
+    /**
+     * 進捗内容が編集可能(完了済ではないか)かチェック
+     * @param id 管理ID
+     * @return 編集可能な場合はManagementオブジェクト
+     * @throws Exception 例外
+     */
+    public Management checkCanEdit(String id) throws Exception{
+
+        Management management = getManagementDataById(id);
+        
+        if (management.getDelete_at() != null)
+            throw new Exception(ErrorMessages.ManagementError.NOT_FOUND_ITEM);
+
+        return management;
     }
 
     /**
@@ -76,35 +99,38 @@ public class ManagementService {
 
     /**
      * IDベースで1データ更新
-     * @param management 進捗データ
-     * @return 成功した場合はtrue、失敗した場合はfalse
+     * @param managementId 管理ID
+     * @param userId ユーザーID
+     * @param subject 科目
+     * @param link 課題リンク
+     * @param status ステータス
+     * @param comDate 完了予定日
+     * @throws Exception 例外
      */
-    public boolean updateManagementData(Management management){
+    public void updateManagementData(Integer managementId, Integer userId, String subject, String link, Integer status, String comDate) throws Exception{
 
-        int rowNumber = dao.updateManagementData(management);
+        // インスタンス作成
+        Management management = new Management(); 
 
-        boolean result = false;
+        management.setManagement_id(managementId); 
+        management.setUser_id(userId);
+        management.setSubject(subject);
+        management.setLink(link);
+        management.setStatus(status);
+        management.setCompletion_schedule(Date.valueOf(comDate));
 
-        if (rowNumber > 0) {
-            result = true;
-        }
-        return result;
+        if (dao.updateManagementData(management) < 1)
+            throw new Exception(ErrorMessages.GlobalErrors.SQL_ERROR);
     }
 
     /**
-     * IDベースでデータ削除
+     * IDベースでデータ削除(完了)
      * @param id 管理ID
-     * @return 成功した場合はtrue、失敗した場合はfalse
+     * @throws Exception 例外
      */
-    public boolean deleteManagementDataById(String id){
+    public void deleteManagementDataById(String id) throws Exception{
 
-        int rowNumber = dao.deleteManagementDataById(id);
-
-        boolean result = false;
-
-        if (rowNumber > 0) {
-            result = true;
-        }
-        return result;
+        if (dao.deleteManagementDataById(id) < 1)
+            throw new Exception(ErrorMessages.GlobalErrors.SQL_ERROR);
     }
 }

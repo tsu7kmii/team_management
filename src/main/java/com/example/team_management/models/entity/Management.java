@@ -1,4 +1,4 @@
-package com.example.team_management.models.management;
+package com.example.team_management.models.entity;
 
 import java.sql.Date;
 import java.time.LocalDateTime;

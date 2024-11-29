@@ -1,4 +1,4 @@
-package com.example.team_management.models.management;
+package com.example.team_management.models.dao.impl;
 
 import java.sql.Date;
 import java.time.LocalDateTime;
@@ -9,12 +9,15 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.example.team_management.models.dao.ManagementDao;
+import com.example.team_management.models.entity.Management;
+
 /**
  * ManagementDaoJdbcクラス
  * データベース操作を行うクラス
  */
-@Repository("ManagementDaoJdbc")
-public class ManagementDaoJdbc implements ManagementDao{
+@Repository("ManagementDaoImpl")
+public class ManagementDaoImpl implements ManagementDao{
 
     @Autowired
     JdbcTemplate jdbc;

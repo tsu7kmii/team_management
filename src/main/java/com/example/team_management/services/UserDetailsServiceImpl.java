@@ -7,8 +7,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.team_management.models.user.User;
-import com.example.team_management.models.user.UserDao;
+import com.example.team_management.models.dao.UserDao;
+import com.example.team_management.models.entity.User;
 
 @Component
 @Transactional

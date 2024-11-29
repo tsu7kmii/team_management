@@ -1,10 +1,10 @@
-package com.example.team_management.models.user;
+package com.example.team_management.requests;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-public class SignupValidation {
+public class SignupRequest {
     
     @NotBlank
     @Size(min = 3, max = 10, message = "3文字以上,10文字以下")

@@ -1,8 +1,10 @@
-package com.example.team_management.models.user;
+package com.example.team_management.models.dao;
 
 import java.util.*;
 
 import org.springframework.dao.DataAccessException;
+
+import com.example.team_management.models.entity.User;
 
 public interface UserDao {
     
