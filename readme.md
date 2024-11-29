@@ -56,25 +56,30 @@ ps : `sample1`
 │   　　│   　　├── /java /com /example /test_managemet  
 │   　　│   　　│   　　├── /controllers   　　- コントローラーパッケージ  
 │   　　│   　　│   　　│   　　├── AuthController.java   　　- 認証、新規登録、認証情報変更など  
-│   　　│   　　│   　　│   　　├── ErrorController.java   　　- エラーリダイレクト、権限エラー  
+│   　　│   　　│   　　│   　　├── CustomErrorController.java   
 │   　　│   　　│   　　│   　　└── ManagementController.java   　　- 進捗管理の表示、登録、変更  
 │   　　│   　　│   　　│  
+│   　　│   　　│   　　├── /exception  
+│   　　│   　　│   　　│   　　└── ErrorMessages.java   　　 - エラーメッセージ定数の定義  
+│   　　│   　　│   　　│  
 │   　　│   　　│   　　├── /models   　　- モデルパッケージ   
-│   　　│   　　│   　　│   　　├── /management   　　- マネジメントテーブルパッケージ  
-│   　　│   　　│   　　│   　　│   　　├── Management.java   　　- DB:Managementモデル  
-│   　　│   　　│   　　│   　　│   　　├── ManagementDao.java    　　- DAO定義用インターフェース 
-│   　　│   　　│   　　│   　　│   　　└── ManagementDaoJdbc.java   　　- デーベース接続  
+│   　　│   　　│   　　│   　　├── /dao   　　- DAOパッケージ  
+│   　　│   　　│   　　│   　　│   　　├── impl   　　- implパッケージ  
+│   　　│   　　│   　　│   　　│   　　│   　　├── ManagementDaoimpl.java    　　- デーベース接続  
+│   　　│   　　│   　　│   　　│   　　│   　　└── UserDaoimpl.java   　　- デーベース接続  
+│   　　│   　　│   　　│   　　│   　　├── ManagementDao.java    　　- DAO定義用インターフェース  
+│   　　│   　　│   　　│   　　│   　　└── UserDao.java   　　- DAO定義用インターフェース  
 │   　　│   　　│   　　│   　　│  
-│   　　│   　　│   　　│   　　└── /user - ユーザーテーブルパッケージ  
-│   　　│   　　│   　　│   　　   　　├── NameChangeValidation.java   　　- 入力チェック  
-│   　　│   　　│   　　│   　　   　　├── PasswordChangeValidation.java   　　- 入力チェック  
-│   　　│   　　│   　　│   　　   　　├── SignupValidation.java   　　- 入力チェック  
-│   　　│   　　│   　　│   　　   　　├── User.java   　　- DB:user_tableモデル  
-│   　　│   　　│   　　│   　　   　　├── UserDao.java    　　- DAO定義用インターフェース  
-│   　　│   　　│   　　│   　　   　　└── UserDaoJdbc.java   　　- デーベース接続  
+│   　　│   　　│   　　│   　　└── /entity - エンティティパッケージ  
+│   　　│   　　│   　　│   　　   　　├── Management.java   　　- DB:managementテーブル  
+│   　　│   　　│   　　│   　　   　　└── User.java   　　- DB:user_tableテーブル  
+│   　　│   　　│   　　│  
+│   　　│   　　│   　　├── /request - リクエストパッケージ  
+│   　　│   　　│   　　│   　　├── NamecheckRequest.java   　　- 名前変更時  
+│   　　│   　　│   　　│   　　├── PasswordChangeRequest.java   　　- パスワード変更時  
+│   　　│   　　│   　　│   　　└── SignupRequest.java   　　- 新規アカウント作成時  
 │   　　│   　　│   　　│  
 │   　　│   　　│   　　├── /services - サービスパッケージ  
-│   　　│   　　│   　　│   　　├── ErrorService.java   　　- エラーハンドリングの設定  
 │   　　│   　　│   　　│   　　├── ManagementService.java   　　- 進捗管理  
 │   　　│   　　│   　　│   　　├── UserDetailsServiceImpl.java   　　- ログイン認証  
 │   　　│   　　│   　　│   　　└── UserService.java   　　- ユーザーアカウント管理  
@@ -89,7 +94,6 @@ ps : `sample1`
 │   　　│   　　   　　│  
 │   　　│   　　   　　├── /templates   　　- thymeleafテンプレート  
 │   　　│   　　   　　│   　　├── /auth   　　- 認証関係のパーツ  
-│   　　│   　　   　　│   　　│   　　├── access-denied.html  
 │   　　│   　　   　　│   　　│   　　├── change_name.html  
 │   　　│   　　   　　│   　　│   　　├── change_password.html  
 │   　　│   　　   　　│   　　│   　　├── login.html  
@@ -99,6 +103,11 @@ ps : `sample1`
 │   　　│   　　   　　│   　　├── /common   　　- 共通パーツ  
 │   　　│   　　   　　│   　　│   　　└── common.html  
 │   　　│   　　   　　│   　　│  
+│   　　│   　　   　　│   　　├── /error   　　- エラーパーツ  
+│   　　│   　　   　　│   　　│   　　├── 404.html  
+│   　　│   　　   　　│   　　│   　　├── access-denied.html  
+│   　　│   　　   　　│   　　│   　　└── error.html  
+│   　　│   　　   　　│   　　│  
 │   　　│   　　   　　│   　　├── /management   　　- 進捗関係のパーツ  
 │   　　│   　　   　　│   　　│   　　├── efit_item.html  
 │   　　│   　　   　　│   　　│   　　├── history.html  
@@ -106,8 +115,7 @@ ps : `sample1`
 │   　　│   　　   　　│   　　│   　　├── register_item.html  
 │   　　│   　　   　　│   　　│   　　└── year_history.html  
 │   　　│   　　   　　│   　　│  
-│   　　│   　　   　　│   　　├── error.html  
-│   　　│   　　   　　│   　　└── index.html  
+│   　　│   　　   　　│   　　└── index.html   　　- トップ画面  
 │   　　│   　　   　　│  
 │   　　│   　　   　　└── application.properties   　　- DB接続設定など   
 │   　　└── /test /java /com /example /test_managemet  
