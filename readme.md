@@ -1,4 +1,5 @@
 ## イントロダクション
+### `team_management`はチーム開発等における進捗管理システムです。
 開発環境 : [pom.xml](./pom.xml)にはjava version17となっていますが、実際はjdk22で開発しています。  
 データベースはmysqlを使用し、dockerでホストしています。  
 
@@ -7,6 +8,7 @@
 ## 各種ドキュメント
 
 ### [ドキュメントレポジトリ ](https://github.com/tsu7kmii/team_management_doc)
+上記レポジトリに、以下ドキュメント.xmlxのExcelファイルがあります。
 
 > ### [基本設計書](https://github.com/tsu7kmii/team_management_doc/blob/main/docs/BasicDesign.xlsx)
 > ### [画面仕様書](https://github.com/tsu7kmii/team_management_doc/blob/main/docs/ScreenDesign.xlsx)
@@ -128,21 +130,3 @@ ps : `sample1`
 ├── mvnw.cmd  
 ├── pom.xml - Project Object Model  
 └── readme.md  
-
-
-
-
-
-<!-- 
-## 参考元
-[Spring Security バージョン6でのデータベース認証](https://qiita.com/L_A_P_119611/items/fc111bb23aca40b03cbb)  
-[【Spring Security】SecurityFilterChainとカスタムUserDetailsService](https://zenn.dev/peishim/articles/c225ac5a5eedb0)  
-[【初心者用】Spring Security でユーザー認証・登録を実装する手順のまとめ](https://qiita.com/t-yama-3/items/a538d47b8f0a27639d23) 
--->
-
-<!-- 
-## 今後の課題
- - メール機能の追加
- - パスワードリセット機能
- - 変更履歴機能 
- -->
