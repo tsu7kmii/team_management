@@ -2,8 +2,6 @@ package com.example.team_management.controllers;
 
 import java.util.*;
 
-import java.sql.Date;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -119,28 +117,20 @@ public class ManagementController {
                                 @RequestParam("subject") String subject,
                                 @RequestParam("link") String link,
                                 @RequestParam("status") Integer status,
-                                @RequestParam("completion_schedule") String comDate){
+                                @RequestParam("completion_schedule") String comDate,
+                                Model model){
 
                                     
-        // 追加処理
-        // インスタンス作成
-        Management management = new Management();  
-        
-        management.setUser_id(userId);
-        management.setSubject(subject);
-        management.setLink(link);
-        management.setStatus(status);
-        management.setCompletion_schedule(Date.valueOf(comDate));  
-
-        boolean isAddManagementResult = managementService.addManagementData(management);
-
-        if (isAddManagementResult){
-            // 成功
-            return "redirect:/view";
-        } else {
-            // 失敗
-            return "redirect:/error/add_management_error";
+        // 実行
+        try {
+            managementService.addManagementData(userId, subject, link, status, comDate);
+        } catch (Exception e) {
+            // エラーハンドリング
+            model.addAttribute("error_message", e.getMessage());
+            return "error/error";
         }
+
+        return "redirect:/view";
     }
 
     /**
@@ -153,14 +143,18 @@ public class ManagementController {
     @RequestMapping(value = "/view/edit/{id}", method = RequestMethod.GET)
     public String viewManagementEdit(@PathVariable String id,Model model){
 
-        // 編集
-        Map<Integer, String> userMap = userService.getUserNameList();
-        Management management = managementService.getManagementDataById(id);
+        Management management = new Management();
 
-        if (management.getDelete_at() != null){
-            // 存在しないidまたは完了済の場合
-            return "redirect:/error/not_found_edit_item_error";
+        // 実行
+        try {
+            management = managementService.checkCanEdit(id);
+        } catch (Exception e) {
+            // エラーハンドリング
+            model.addAttribute("error_message", e.getMessage());
+            return "error/error";
         }
+
+        Map<Integer, String> userMap = userService.getUserNameList();
 
         model.addAttribute("user_list", userMap);
         model.addAttribute("management_data", management);
@@ -185,29 +179,20 @@ public class ManagementController {
                                 @RequestParam("subject") String subject,
                                 @RequestParam("link") String link,
                                 @RequestParam("status") Integer status,
-                                @RequestParam("completion_schedule") String comDate){
+                                @RequestParam("completion_schedule") String comDate,
+                                Model model){
 
-                                    
-        // 変更処理
-        // インスタンス作成
-        Management management = new Management(); 
-
-        management.setManagement_id(managementId); 
-        management.setUser_id(userId);
-        management.setSubject(subject);
-        management.setLink(link);
-        management.setStatus(status);
-        management.setCompletion_schedule(Date.valueOf(comDate));  
-
-        boolean isUpdateManagementResult = managementService.updateManagementData(management);
-
-        if (isUpdateManagementResult){
-            // 成功
-            return "redirect:/view";
-        } else {
-            // 失敗
-            return "redirect:/error/edit_management_error?param=" + managementId;
+                            
+        // 実行
+        try {
+            managementService.updateManagementData(managementId, userId, subject, link, status, comDate);
+        } catch (Exception e) {
+            // エラーハンドリング
+            model.addAttribute("error_message", e.getMessage());
+            return "error/error";
         }
+
+        return "redirect:/view";
     }
 
     /**
@@ -217,19 +202,18 @@ public class ManagementController {
      * @return リダイレクト先
      */
     @RequestMapping(value = "/management/complate/{id}", method = RequestMethod.GET)
-    public String managementComplateRegister(@PathVariable String id){
+    public String managementComplateRegister(@PathVariable String id, Model model){
 
-        // 完了
-        boolean isDeleteManagementResult = managementService.deleteManagementDataById(id);
-
-        if (isDeleteManagementResult){
-            // 成功
-            return "redirect:/view";
-        } else {
-            // 失敗
-            return "redirect:/error/not_complate_management_error?param=" + id;
+        // 実行
+        try {
+            managementService.deleteManagementDataById(id);
+        } catch (Exception e) {
+            // エラーハンドリング
+            model.addAttribute("error_message", e.getMessage());
+            return "error/error";
         }
 
+        return "redirect:/view";
     }
 
     /**
@@ -242,11 +226,6 @@ public class ManagementController {
     public String viewManagementHistoryLog(Model model){
 
         List<Integer> yaers = managementService.getComplateYearData();
-
-        if (yaers.isEmpty()) {
-            // 完了済データが存在しない場合
-            return "redirect:/error/no_history_data_error";
-        }
 
         model.addAttribute("historys", yaers);
 
@@ -262,13 +241,6 @@ public class ManagementController {
      */
     @RequestMapping(value = "/view/history/{year}", method = RequestMethod.GET)
     public String viewManagementHistory(@PathVariable String year, Model model){
-
-        List<Integer> yaers = managementService.getComplateYearData();
-
-        if (!yaers.contains(Integer.parseInt(year))) {
-            // 示された年が存在するかチェック
-            return "redirect:/error/year_not_found_error?param=" + year;
-        }
 
         // 一覧取得
         List<Management> yearComplateList = managementService.getAllCompletionManagementData(year);
