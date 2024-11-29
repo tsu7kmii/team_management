@@ -26,7 +26,7 @@ public class SecurityConfig{
         http.authorizeHttpRequests((requests) ->requests
             .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
             // 未ログインで閲覧可能
-            .requestMatchers("/sign_up","/user_register","/error/**").permitAll()
+            .requestMatchers("/sign_up","/user_register").permitAll()
             // 管理者権限が閲覧に必要
             .requestMatchers("/admin/**").hasRole("ADMIN")
             .anyRequest().authenticated()
