@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -12,7 +13,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.team_management.exception.ErrorMessages;
+import com.example.team_management.models.dao.PasswordTokenRepository;
 import com.example.team_management.models.dao.UserDao;
+import com.example.team_management.models.entity.PasswordResetToken;
 import com.example.team_management.models.entity.User;
 import com.example.team_management.requests.SignupRequest;
 
@@ -26,6 +29,9 @@ public class UserService {
 
     @Autowired
     PasswordEncoder passwordEncoder;
+
+    @Autowired
+    PasswordTokenRepository passwordTokenRepository;
 
     /**
      * 全<id:name>セットユーザー情報取得
@@ -160,5 +166,49 @@ public class UserService {
         
         if (dao.deleteUserById(id) < 1)
             throw new Exception(ErrorMessages.GlobalErrors.SQL_ERROR);
+    }
+
+    /**
+     * パスワードリセットURL生成
+     * @param conTextPath コンテキストパス
+     * @param email メールアドレス
+     * @return パスワードリセットURL
+     * @throws Exception 例外
+     */
+    public String resetPassword(String conTextPath, String email) throws Exception{
+        User user = dao.findUserByEmail(email);
+
+        if (user.getUser_id() == -1)
+            throw new Exception("USER NOT FOUND");
+        
+        String token = UUID.randomUUID().toString();
+        createPasswordResetTokenForUser(user, token);
+
+        String url = conTextPath + "/user/change_password?token=" + token;
+
+        return url;
+    }
+
+    /**
+     * パスワードリセットトークン作成
+     * @param user ユーザー
+     * @param token トークン
+     */
+    public void createPasswordResetTokenForUser(User user, String token){
+        PasswordResetToken myToken = new PasswordResetToken(token,user);
+        passwordTokenRepository.save(myToken);
+    }
+
+    /**
+     * パスワードリセット時 : 新しいパスワードに変更
+     * @param newPassword 新しいパスワード
+     * @param token トークン
+     * @throws Exception 例外
+     */
+    public void resetNewPassword(String newPassword, String token) throws Exception{
+        User user = passwordTokenRepository.findByToken(token).getUser();
+
+        if (dao.changePasswordByEmail(user.getEmail(), createHash(newPassword)) < 1)
+            throw new Exception(ErrorMessages.GlobalErrors.SQL_ERROR);  
     }
 }
