@@ -19,10 +19,16 @@ import com.example.team_management.models.entity.User;
 import com.example.team_management.requests.NameChangeRequest;
 import com.example.team_management.requests.PasswordChangeRequest;
 import com.example.team_management.requests.SignupRequest;
+import com.example.team_management.services.MailSenderService;
+import com.example.team_management.services.SecurityService;
 import com.example.team_management.services.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+
 
 /**
  * 認証コントローラー
@@ -32,6 +38,12 @@ public class AuthController {
     
     @Autowired
     UserService userService;
+
+    @Autowired
+    MailSenderService mailSenderService;
+
+    @Autowired
+    SecurityService securityService;
 
     SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();
 
@@ -176,6 +188,95 @@ public class AuthController {
 
         return "redirect:/admin/user_list";
     }
+
+    /**
+     * パスワードリセットのメール送信
+     * 
+     * @param request リクエスト
+     * @param userEmail ユーザーのメールアドレス
+     * @return リダイレクト先
+     */
+    @PostMapping("/user/reset_password")
+    public String resetPassword(HttpServletRequest request, 
+                                @RequestParam("email") String userEmail) {
+        
+        // 実行
+        try {
+            String appUrl = userService.resetPassword(getAppUrl(request), userEmail);
+            mailSenderService.sendResetPasswordMail(userEmail, appUrl);
+        } catch (Exception e) {
+            // エラーハンドリング
+            return "redirect:/forget_password?error";
+        }
+        
+        return "redirect:/forget_password?success";
+    }
+
+    /**
+     * パスワード変更画面表示
+     * 
+     * @param passwordChangeRequest パスワード変更バリデーション
+     * @param model モデル
+     * @param token トークン
+     * @return パスワード変更画面
+     */
+    @GetMapping("/user/change_password")
+    public String showChangePasswordPage(PasswordChangeRequest passwordChangeRequest, Model model, @RequestParam("token") String token){
+        
+        String isTokenCheckResult = securityService.validatePasswordResetToken(token);
+        
+        if (isTokenCheckResult != null){
+            // トークン認証エラー
+            model.addAttribute("error_message", isTokenCheckResult);
+            return "error/error";
+
+        } else {
+            model.addAttribute("token", token);
+            model.addAttribute("href_link", "/user/save_password");
+            return "auth/change_password";
+        }
+    }
+
+    /**
+     * 新しいパスワード保存処理
+     * 
+     * @param passwordChangeRequest パスワード変更バリデーション
+     * @param bindingResult バインディング結果
+     * @param token トークン
+     * @param model モデル
+     * @return リダイレクト先
+     */
+    @RequestMapping("/user/save_password")
+    public String saveNewPasswordRegister(@Validated PasswordChangeRequest passwordChangeRequest, BindingResult bindingResult,@RequestParam("token") String token, Model model){
+
+        String isTokenCheckResult = securityService.validatePasswordResetToken(token);
+
+        if (isTokenCheckResult != null){
+            // トークン認証エラー
+            model.addAttribute("error_message", isTokenCheckResult);
+            return "error/error";
+        }
+
+        if (bindingResult.hasErrors()) {
+            if (!passwordChangeRequest.isPasswordValid()){
+                model.addAttribute("passwordMismatchError", "パスワードが一致しません");
+            }
+
+            // バリデーションチェック
+            return "auth/change_password";
+        }
+
+        // 実行
+        try {
+            userService.resetNewPassword(passwordChangeRequest.getNewPassword(), token);
+        } catch (Exception e) {
+            // エラーハンドリング
+            model.addAttribute("error_message", e.getMessage());
+            return "error/error";
+        }
+
+        return "redirect:/login";
+    }
     
     /**
      * ログイン画面表示
@@ -222,8 +323,9 @@ public class AuthController {
      * @return パスワード変更画面
      */
     @RequestMapping("/change_password")
-    public String viewChangePassword(PasswordChangeRequest passwordChangeRequest){
+    public String viewChangePassword(PasswordChangeRequest passwordChangeRequest,Model model){
 
+        model.addAttribute("href_link", "/user_change_password");
         return "auth/change_password";
     }
 
@@ -253,5 +355,25 @@ public class AuthController {
         model.addAttribute("users", userList);
 
         return "auth/user_list";
+    }
+
+    /**
+     * パスワードリセット申請画面表示
+     * 
+     * @return パスワードリセット申請画面
+     */
+    @RequestMapping("/forget_password")
+    public String viewForgetPassword(){
+        return "auth/forget_password";
+    }
+
+    /**
+     * アプリケーションのURLを取得
+     * 
+     * @param request リクエスト
+     * @return アプリケーションのURL
+     */
+    private String getAppUrl(HttpServletRequest request) {
+        return request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
     }
 }
