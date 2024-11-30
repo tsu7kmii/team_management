@@ -158,6 +158,12 @@ ALTER TABLE `management`
   ADD PRIMARY KEY (`management_id`);
 
 --
+-- テーブルのインデックス `password_reset_token`
+--
+ALTER TABLE `password_reset_token`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- テーブルのインデックス `password_reset_token_seq`
 --
 ALTER TABLE `password_reset_token_seq`
