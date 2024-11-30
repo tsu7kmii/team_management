@@ -38,3 +38,19 @@ services:
     volumes:
       - ./phpmyadmin/sessions:/sessions
     container_name: team-management-phpmyadmin
+
+  # mailhog コンテナの追加
+  mailhog:
+    image: mailhog/mailhog:latest
+    ports:
+      - "1025:1025" # SMTP サーバー
+      - "8025:8025" # Web UI
+    volumes:
+      - mailhog-data:/tmp
+    environment:
+      MH_STORAGE: maildir
+      MH_MAILDIR_PATH: /tmp
+    container_name: team-management-mailhog
+
+volumes:
+  mailhog-data:
