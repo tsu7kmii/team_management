@@ -72,10 +72,12 @@ ps : `sample1`
 │   　　│   　　│   　　│   　　│   　　│   　　├── ManagementDaoimpl.java    　　- デーベース接続  
 │   　　│   　　│   　　│   　　│   　　│   　　└── UserDaoimpl.java   　　- デーベース接続  
 │   　　│   　　│   　　│   　　│   　　├── ManagementDao.java    　　- DAO定義用インターフェース  
+│   　　│   　　│   　　│   　　│   　　├── PasswordTokenRepository.java    　　- パスワードリセットトークンインターフェース  
 │   　　│   　　│   　　│   　　│   　　└── UserDao.java   　　- DAO定義用インターフェース  
 │   　　│   　　│   　　│   　　│  
 │   　　│   　　│   　　│   　　└── /entity - エンティティパッケージ  
 │   　　│   　　│   　　│   　　   　　├── Management.java   　　- DB:managementテーブル  
+│   　　│   　　│   　　│   　　   　　├── PasswordResetToken.java   　　- DB:password_reset_token / password_reset_token_deqテーブル  
 │   　　│   　　│   　　│   　　   　　└── User.java   　　- DB:user_tableテーブル  
 │   　　│   　　│   　　│  
 │   　　│   　　│   　　├── /request - リクエストパッケージ  
@@ -84,7 +86,9 @@ ps : `sample1`
 │   　　│   　　│   　　│   　　└── SignupRequest.java   　　- 新規アカウント作成時  
 │   　　│   　　│   　　│  
 │   　　│   　　│   　　├── /services - サービスパッケージ  
+│   　　│   　　│   　　│   　　├── MailSenderService.java   　　- メール送信  
 │   　　│   　　│   　　│   　　├── ManagementService.java   　　- 進捗管理  
+│   　　│   　　│   　　│   　　├── SecurityService.java   　　- パスワードリセットトークン認証  
 │   　　│   　　│   　　│   　　├── UserDetailsServiceImpl.java   　　- ログイン認証  
 │   　　│   　　│   　　│   　　└── UserService.java   　　- ユーザーアカウント管理  
 │   　　│   　　│   　　│   
@@ -100,6 +104,7 @@ ps : `sample1`
 │   　　│   　　   　　│   　　├── /auth   　　- 認証関係のパーツ  
 │   　　│   　　   　　│   　　│   　　├── change_name.html  
 │   　　│   　　   　　│   　　│   　　├── change_password.html  
+│   　　│   　　   　　│   　　│   　　├── forget_password.html  
 │   　　│   　　   　　│   　　│   　　├── login.html  
 │   　　│   　　   　　│   　　│   　　├── sign_up.html  
 │   　　│   　　   　　│   　　│   　　└── user_list.html  
