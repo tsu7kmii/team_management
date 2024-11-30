@@ -205,10 +205,11 @@ public class UserService {
      * @param token トークン
      * @throws Exception 例外
      */
-    public void resetNewPassword(String newPassword, String token) throws Exception{
+    public String resetNewPassword(String newPassword, String token) throws Exception{
         User user = passwordTokenRepository.findByToken(token).getUser();
 
         if (dao.changePasswordByEmail(user.getEmail(), createHash(newPassword)) < 1)
             throw new Exception(ErrorMessages.GlobalErrors.SQL_ERROR);  
+        return user.getEmail();
     }
 }

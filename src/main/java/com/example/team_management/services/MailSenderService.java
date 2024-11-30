@@ -56,4 +56,31 @@ public class MailSenderService {
         }
 
     }
+    public void sendChangePasswordSuccessMail(String toMailAddress){
+        // 新しいメッセージ作成
+        var newMessage = javaMailSender.createMimeMessage();
+        try{
+            var newMessageHelper = new MimeMessageHelper(newMessage, true);
+
+            StringBuilder messageText = new StringBuilder();
+            messageText.append("アカウントのパスワードが正常に変更されました。 \n ")
+                        .append("パスワードの変更に覚えが無い場合、またこの操作を行っていない場合は、直ちに下記メールにご連絡ください。 \n")
+                        .append("当メールに心当たりがある場合は、このメールを無視してください。 \n")
+                        .append("引き続きシステムをご利用下さい。 \n")
+                        .append(signatureLine)
+                        .append(signature)
+                        .append(signatureLine);
+
+            newMessageHelper.setTo(toMailAddress);
+            newMessageHelper.setFrom(fromMailAddress);
+            newMessageHelper.setSubject("パスワード変更完了のお知らせ");
+            newMessageHelper.setText(messageText.toString());
+
+            javaMailSender.send(newMessage);
+
+        } catch (MessagingException e){
+            throw new RuntimeException("送信エラー");
+        }
+
+    }
 }

@@ -102,6 +102,7 @@ public class AuthController {
         // 実行
         try {
             userService.changePasswordByEmail(userDetails.getUsername(),passwordChangeRequest.getNewPassword());
+            mailSenderService.sendChangePasswordSuccessMail(userDetails.getUsername());
         } catch (Exception e) {
             // エラーハンドリング
             model.addAttribute("error_message", e.getMessage());
@@ -268,7 +269,8 @@ public class AuthController {
 
         // 実行
         try {
-            userService.resetNewPassword(passwordChangeRequest.getNewPassword(), token);
+            String email = userService.resetNewPassword(passwordChangeRequest.getNewPassword(), token);
+            mailSenderService.sendChangePasswordSuccessMail(email);
         } catch (Exception e) {
             // エラーハンドリング
             model.addAttribute("error_message", e.getMessage());
