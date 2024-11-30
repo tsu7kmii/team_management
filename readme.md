@@ -11,11 +11,11 @@
 上記レポジトリに、以下ドキュメント.xmlxのExcelファイルがあります。
 
 > ### [基本設計書](https://github.com/tsu7kmii/team_management_doc/blob/main/docs/BasicDesign.xlsx)
-> [基本設計書 - ブラウザで閲覧する](https://docs.google.com/spreadsheets/d/1PYcpNwC8GMw9iYf5Zy8fuBNodi4LGxa5LJJ07L4lmIQ/edit?usp=drive_link)
+> [基本設計書 - ブラウザで閲覧する](https://docs.google.com/spreadsheets/d/1r8WyOIZeNG6DBgNoc33U01sQ_q8_MHceTraFStcmHcA/edit?usp=drive_link)
 > ### [画面仕様書](https://github.com/tsu7kmii/team_management_doc/blob/main/docs/ScreenDesign.xlsx)
 > [画面仕様書 - ブラウザで閲覧する](https://docs.google.com/spreadsheets/d/1SAOyUtI7zFvJ6qnsg7l_n8SwbdyYAgAduBrj8LNxmYw/edit?usp=drive_link)
 > ### [テーブル設計書](https://github.com/tsu7kmii/team_management_doc/blob/main/docs/TableDesign.xlsx)
-> [テーブル設計書 - ブラウザで閲覧する](https://docs.google.com/spreadsheets/d/1r8WyOIZeNG6DBgNoc33U01sQ_q8_MHceTraFStcmHcA/edit?usp=drive_link)
+> [テーブル設計書 - ブラウザで閲覧する](https://docs.google.com/spreadsheets/d/14bZGAYBpqBrf2632GxU1BIOzw0emZvEC_7QBHCDKOBo/edit?usp=drive_link)
 
 ## 使用方法
 
