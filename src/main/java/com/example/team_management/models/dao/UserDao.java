@@ -88,4 +88,12 @@ public interface UserDao {
      * @throws DataAccessException データアクセス例外
      */
     public int deleteUserById(Integer id) throws DataAccessException;
+
+    /**
+     * メールアドレスでユーザー検索
+     * @param email メールアドレス
+     * @return ユーザー情報
+     * @throws DataAccessException データアクセス例外
+     */
+    public User findUserByEmail(String email) throws DataAccessException;
 }

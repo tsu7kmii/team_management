@@ -190,4 +190,35 @@ public class UserDaoImpl implements UserDao{
 
         return rowNumber;
     }
+
+    /**
+     * メールアドレスでユーザー検索
+     * @param email メールアドレス
+     * @return ユーザー情報
+     * @throws DataAccessException データアクセス例外
+     */
+    @Override
+    public User findUserByEmail(String email) throws DataAccessException {
+        List<Map<String,Object>> list = jdbc.queryForList("SELECT * FROM user_table WHERE email = ? AND delete_at IS NULL", email);
+
+        User user = new User();
+
+        if (list.isEmpty()) {
+            user.setUser_id(-1);
+            return user;
+        }
+
+        Map<String,Object> map = list.get(0);
+
+        user.setUser_id((Integer) map.get("user_id"));
+        user.setUser_name((String) map.get("user_name"));
+        user.setPassword((String) map.get("password"));
+        user.setEmail((String) map.get("email"));
+        user.setPermission_level((Integer) map.get("permission_level"));
+        user.setCreate_at((LocalDateTime) map.get("create_at"));
+        user.setUpdate_at((LocalDateTime) map.get("update_at"));
+        user.setDelete_at((LocalDateTime) map.get("delete_at"));
+
+        return user;
+    }
 }
