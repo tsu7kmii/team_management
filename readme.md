@@ -8,7 +8,7 @@
 ## 各種ドキュメント
 
 ### [ドキュメントレポジトリ ](https://github.com/tsu7kmii/team_management_doc)
-上記レポジトリに、以下ドキュメント.xmlxのExcelファイルがあります。
+上記レポジトリに、以下ドキュメント.xlsxのExcelファイルがあります。
 
 > ### [基本設計書](https://github.com/tsu7kmii/team_management_doc/blob/main/docs/BasicDesign.xlsx)
 > [基本設計書 - ブラウザで閲覧する](https://docs.google.com/spreadsheets/d/1r8WyOIZeNG6DBgNoc33U01sQ_q8_MHceTraFStcmHcA/edit?usp=drive_link)
