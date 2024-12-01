@@ -96,7 +96,7 @@ CREATE TABLE `password_reset_token` (
   `id` int NOT NULL,
   `token` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `user_id` int NOT NULL,
-  `expiry_date` date NOT NULL
+  `expiry_date` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
